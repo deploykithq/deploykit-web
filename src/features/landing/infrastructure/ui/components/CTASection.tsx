@@ -30,7 +30,7 @@ export const CTASection = () => {
 
           <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <a
-              href="https://github.com"
+              href="https://github.com/deploykithq"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-gradient-primary px-8 py-4 text-sm font-semibold text-primary-foreground transition-all hover:opacity-90 glow-primary"
