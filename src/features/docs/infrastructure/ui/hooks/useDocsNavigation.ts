@@ -36,6 +36,7 @@ export const useDocsNavigation = () => {
   const navigateTo = useCallback((id: string) => {
     setActiveSection(id);
     setSidebarOpen(false);
+    window.scrollTo({ top: 0 });
   }, []);
 
   const toggleSidebar = useCallback(() => {
