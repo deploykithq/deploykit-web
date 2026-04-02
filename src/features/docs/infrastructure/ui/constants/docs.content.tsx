@@ -154,7 +154,7 @@ export const DOCS_CONTENT: Record<string, DocsSectionContentI> = {
           <CodeBlock
             language="bash"
             code={`# 1. Clone the repository
-git clone https://github.com/deploykit/deploykit.git
+git clone https://github.com/deploykithq/deploykit.git
 cd deploykit
 
 # 2. Copy and configure environment variables
