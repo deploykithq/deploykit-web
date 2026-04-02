@@ -9,6 +9,12 @@ import {
   Server,
   Settings,
   GitBranch,
+  Bell,
+  Users,
+  Activity,
+  Eye,
+  Webhook,
+  ScrollText,
 } from "lucide-react";
 import type { SidebarSectionI } from "@docs/infrastructure/ui/types/docs.module.types";
 
@@ -24,19 +30,23 @@ export const SIDEBAR_SECTIONS: SidebarSectionI[] = [
   {
     title: "Guides",
     items: [
-      { id: "deploy-app", label: "Deploy an app", icon: Globe },
+      { id: "applications", label: "Applications", icon: Layers },
       { id: "databases", label: "Databases", icon: Database },
       { id: "domains", label: "Domains & SSL", icon: Shield },
-      { id: "scaling", label: "Scaling", icon: Layers },
+      { id: "servers", label: "Servers", icon: Server },
+      { id: "preview-deployments", label: "Preview Deployments", icon: Eye },
+      { id: "notifications", label: "Notifications", icon: Bell },
+      { id: "users-rbac", label: "Users & RBAC", icon: Users },
+      { id: "monitoring", label: "Monitoring", icon: Activity },
     ],
   },
   {
     title: "Reference",
     items: [
-      { id: "cli", label: "CLI Reference", icon: Terminal },
-      { id: "api", label: "API Reference", icon: Server },
+      { id: "api", label: "API Reference", icon: Terminal },
       { id: "config", label: "Configuration", icon: Settings },
-      { id: "ci-cd", label: "CI/CD", icon: GitBranch },
+      { id: "webhooks", label: "Webhooks & CI/CD", icon: Webhook },
+      { id: "audit-logs", label: "Audit Logs", icon: ScrollText },
     ],
   },
 ];
