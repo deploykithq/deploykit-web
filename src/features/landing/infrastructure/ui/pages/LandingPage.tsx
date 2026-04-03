@@ -18,7 +18,7 @@ export const LandingPage = () => {
       <div className="min-h-screen bg-background">
         <Navbar />
         <HeroSection />
-        <StatsSection />
+        {/* <StatsSection /> */}
         <FeaturesSection />
         <DemoSection />
         <HowItWorksSection />
