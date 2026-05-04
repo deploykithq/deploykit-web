@@ -15,6 +15,7 @@ import {
   Eye,
   Webhook,
   ScrollText,
+  TerminalSquare,
 } from "lucide-react";
 import type { SidebarSectionI } from "@docs/infrastructure/ui/types/docs.module.types";
 
@@ -43,6 +44,7 @@ export const SIDEBAR_SECTIONS: SidebarSectionI[] = [
   {
     title: "Reference",
     items: [
+      { id: "cli", label: "CLI Reference", icon: TerminalSquare },
       { id: "api", label: "API Reference", icon: Terminal },
       { id: "config", label: "Configuration", icon: Settings },
       { id: "webhooks", label: "Webhooks & CI/CD", icon: Webhook },

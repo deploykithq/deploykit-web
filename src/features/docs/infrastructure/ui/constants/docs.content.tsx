@@ -126,7 +126,7 @@ export const DOCS_CONTENT: Record<string, DocsSectionContentI> = {
       <div className="space-y-8">
         <div>
           <h3 className="text-lg font-semibold text-bright mb-3">
-            Quick Install
+            Quick Install (curl)
           </h3>
           <p className="text-muted-foreground mb-4">
             Run the following command on your server. The installer will
@@ -142,6 +142,51 @@ export const DOCS_CONTENT: Record<string, DocsSectionContentI> = {
             automatically installs Docker, clones DeployKit, generates secrets,
             configures the environment, starts all services, and runs database
             migrations.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-bright mb-3">
+            Install via npm CLI
+          </h3>
+          <p className="text-muted-foreground mb-4">
+            If you already have Node.js 20+ on the VPS, install the official
+            CLI globally and run the installer with the same prompts and flags:
+          </p>
+          <CodeBlock
+            language="bash"
+            code={`npm install -g @deploykit/cli
+sudo deploykit install \\
+  --domain deploy.example.com \\
+  --email you@example.com \\
+  --admin-email admin@example.com \\
+  --admin-password mypassword123`}
+          />
+          <p className="text-sm text-muted-foreground mt-3">
+            Omit any flag to drop into interactive mode. The CLI also exposes
+            <code className="mx-1 rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
+              update
+            </code>
+            ,
+            <code className="mx-1 rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
+              status
+            </code>
+            ,
+            <code className="mx-1 rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
+              logs
+            </code>
+            ,
+            <code className="mx-1 rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
+              restart
+            </code>
+            , and
+            <code className="mx-1 rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
+              uninstall
+            </code>
+            subcommands — see the{" "}
+            <a href="#cli" className="text-primary hover:underline">
+              CLI Reference
+            </a>
+            .
           </p>
         </div>
         <div>
@@ -211,10 +256,16 @@ pnpm db:migrate`}
           <h3 className="text-lg font-semibold text-bright mb-3">
             Updating DeployKit
           </h3>
+          <p className="text-muted-foreground mb-4">
+            Both install methods support in-place updates:
+          </p>
           <CodeBlock
             language="bash"
-            code={`# From the deploykit directory
-./update.sh`}
+            code={`# Via the npm CLI (any directory)
+sudo deploykit update
+
+# Or, if you used the curl installer
+cd /opt/deploykit && ./update.sh`}
           />
         </div>
       </div>
@@ -1616,6 +1667,181 @@ jobs:
             environment variable (default: 90 days). A background scheduler
             periodically removes logs older than the retention period.
           </p>
+        </div>
+      </div>
+    ),
+  },
+  cli: {
+    title: "CLI Reference",
+    description:
+      "Install, update, and manage your DeployKit instance from the command line.",
+    content: (
+      <div className="space-y-8">
+        <div>
+          <h3 className="text-lg font-semibold text-bright mb-3">Overview</h3>
+          <p className="text-muted-foreground leading-relaxed">
+            <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
+              @deploykit/cli
+            </code>{" "}
+            is the official Node CLI for DeployKit. It is a feature-complete port
+            of the{" "}
+            <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
+              curl | sh
+            </code>{" "}
+            installer with the same prompts, flags, and behavior, plus
+            day-2 commands for status, logs, restart, update, and uninstall.
+            It only runs on Linux as root — connect to your VPS via SSH and run
+            it there.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-bright mb-3">Install</h3>
+          <CodeBlock
+            language="bash"
+            code={`# Global install
+npm install -g @deploykit/cli
+
+# Or one-shot via npx
+sudo npx @deploykit/cli install --domain deploy.example.com --email you@example.com`}
+          />
+          <p className="text-sm text-muted-foreground mt-3">
+            Requirements: Linux VPS, Node.js &gt;= 20, root or sudo access.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-bright mb-3">
+            deploykit install
+          </h3>
+          <p className="text-muted-foreground mb-4">
+            Bootstraps DeployKit on the current machine. Installs Docker, clones
+            the repo to{" "}
+            <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
+              /opt/deploykit
+            </code>
+            , generates secrets, builds and starts every service, and
+            optionally pre-creates the admin account.
+          </p>
+          <CodeBlock
+            language="bash"
+            code={`sudo deploykit install \\
+  --domain deploy.example.com \\
+  --email you@example.com \\
+  --admin-email admin@example.com \\
+  --admin-password mypassword123`}
+          />
+          <p className="text-sm text-muted-foreground mt-3">
+            Omitting <code className="font-mono text-xs">--domain</code> or{" "}
+            <code className="font-mono text-xs">--email</code> in a TTY drops
+            into interactive prompts.
+          </p>
+          <div className="mt-4 overflow-x-auto rounded-lg border border-border bg-card">
+            <table className="w-full text-sm">
+              <thead className="border-b border-border bg-secondary/50 text-left">
+                <tr>
+                  <th className="px-4 py-2 font-medium text-bright">Flag</th>
+                  <th className="px-4 py-2 font-medium text-bright">
+                    Description
+                  </th>
+                  <th className="px-4 py-2 font-medium text-bright">Default</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border text-muted-foreground">
+                {[
+                  ["--domain <domain>", "Dashboard domain (required)", "—"],
+                  ["--email <email>", "Let's Encrypt email (required)", "—"],
+                  ["--admin-email <email>", "Pre-create admin account", "—"],
+                  ["--admin-password <pwd>", "Admin password, min 8 chars", "—"],
+                  ["--dir <path>", "Install directory", "/opt/deploykit"],
+                  ["--branch <branch>", "Git branch to install", "master"],
+                ].map(([flag, desc, def]) => (
+                  <tr key={flag}>
+                    <td className="px-4 py-2 font-mono text-xs text-foreground">
+                      {flag}
+                    </td>
+                    <td className="px-4 py-2">{desc}</td>
+                    <td className="px-4 py-2 font-mono text-xs">{def}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-bright mb-3">
+            deploykit update
+          </h3>
+          <p className="text-muted-foreground mb-4">
+            Pulls the latest commit, rebuilds images, and restarts every
+            service. Database migrations run automatically on API startup.
+          </p>
+          <CodeBlock
+            language="bash"
+            code={`sudo deploykit update
+sudo deploykit update --branch develop`}
+          />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-bright mb-3">
+            deploykit status
+          </h3>
+          <p className="text-muted-foreground mb-4">
+            Lists running containers via{" "}
+            <code className="font-mono text-xs">docker compose ps</code>.
+          </p>
+          <CodeBlock language="bash" code="deploykit status" />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-bright mb-3">
+            deploykit logs
+          </h3>
+          <p className="text-muted-foreground mb-4">
+            Streams live logs from every DeployKit service. Useful when
+            debugging a failed deploy or a misbehaving worker.
+          </p>
+          <CodeBlock language="bash" code="deploykit logs" />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-bright mb-3">
+            deploykit restart
+          </h3>
+          <p className="text-muted-foreground mb-4">
+            Restarts every DeployKit service in place — useful after editing{" "}
+            <code className="font-mono text-xs">.env</code>.
+          </p>
+          <CodeBlock language="bash" code="sudo deploykit restart" />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-bright mb-3">
+            deploykit uninstall
+          </h3>
+          <p className="text-muted-foreground mb-4">
+            Stops and removes the DeployKit stack. Pass{" "}
+            <code className="font-mono text-xs">--delete-data</code> to also
+            drop the Postgres/Redis volumes and backups. User-deployed
+            containers are never touched.
+          </p>
+          <CodeBlock
+            language="bash"
+            code={`sudo deploykit uninstall --yes
+sudo deploykit uninstall --yes --delete-data`}
+          />
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-bright mb-3">
+            Global Flags
+          </h3>
+          <p className="text-muted-foreground mb-4">
+            Every subcommand accepts{" "}
+            <code className="font-mono text-xs">--dir &lt;path&gt;</code> to
+            point at a non-default install location, and{" "}
+            <code className="font-mono text-xs">--help</code> to print usage:
+          </p>
+          <CodeBlock
+            language="bash"
+            code={`deploykit --help
+deploykit install --help
+deploykit --version`}
+          />
         </div>
       </div>
     ),

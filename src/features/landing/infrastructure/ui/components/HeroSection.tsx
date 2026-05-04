@@ -75,6 +75,9 @@ export const HeroSection = () => {
             <code className="block text-left font-mono text-xs sm:text-sm text-muted-foreground overflow-x-auto">
               <span className="text-dim">$</span>{" "}
               <span className="text-foreground whitespace-nowrap">curl -fsSL https://get.deploykit.es | sh</span>
+              <span className="block text-dim my-1"># or via npm</span>
+              <span className="text-dim">$</span>{" "}
+              <span className="text-foreground whitespace-nowrap">npm i -g @deploykit/cli && deploykit install</span>
             </code>
           </div>
         </m.div>
