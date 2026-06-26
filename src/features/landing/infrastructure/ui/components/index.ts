@@ -1,5 +1,6 @@
 export { Navbar } from "./Navbar";
 export { HeroSection } from "./HeroSection";
+export { DeployPipeline } from "./DeployPipeline";
 export { StatsSection } from "./StatsSection";
 export { StatCard } from "./StatCard";
 export { FeaturesSection } from "./FeaturesSection";

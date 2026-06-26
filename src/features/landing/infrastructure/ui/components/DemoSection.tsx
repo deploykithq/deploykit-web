@@ -14,29 +14,28 @@ export const DemoSection = () => {
   }, []);
 
   return (
-    <section id="demo" className="relative py-20 sm:py-32">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] rounded-full bg-gradient-primary opacity-[0.04] blur-[150px]" />
+    <section id="demo" className="relative py-20 sm:py-28">
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[460px] w-[760px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-primary opacity-[0.05] blur-[150px]" />
 
       <div className="container relative mx-auto px-4 sm:px-6">
-        <div className="mb-10 sm:mb-16 text-center">
+        <div className="mx-auto max-w-2xl text-center">
+          <m.span
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary"
+          >
+            Live demo
+          </m.span>
           <m.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-2xl font-bold text-bright sm:text-3xl md:text-4xl"
+            className="mt-3 font-display text-3xl font-bold text-bright sm:text-4xl md:text-5xl"
           >
-            See DeployKit <span className="text-gradient">in action</span>
+            From repo to running — <span className="text-gradient">in minutes</span>
           </m.h2>
-          <m.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="mx-auto mt-3 sm:mt-4 max-w-xl text-sm sm:text-base text-muted-foreground"
-          >
-            From creating a project to having your app running — in minutes.
-          </m.p>
         </div>
 
         <m.div
@@ -44,14 +43,14 @@ export const DemoSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="relative mx-auto max-w-4xl overflow-hidden rounded-xl sm:rounded-2xl border border-border glow-primary"
+          className="ring-gradient surface-raised mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl"
         >
-          <div className="flex items-center gap-2 border-b border-border bg-secondary px-4 py-3">
+          <div className="flex items-center gap-2 border-b border-border bg-surface-2 px-4 py-3">
             <span className="h-3 w-3 rounded-full bg-destructive/60" />
-            <span className="h-3 w-3 rounded-full bg-yellow-500/60" />
-            <span className="h-3 w-3 rounded-full bg-green-500/60" />
-            <span className="ml-3 text-xs font-mono text-muted-foreground hidden sm:inline">
-              deploykit.d1esports.pro
+            <span className="h-3 w-3 rounded-full bg-warning/60" />
+            <span className="h-3 w-3 rounded-full bg-success/60" />
+            <span className="ml-3 hidden font-mono text-xs text-muted-foreground sm:inline">
+              deploykit · dashboard
             </span>
           </div>
 
@@ -69,10 +68,11 @@ export const DemoSection = () => {
               <button
                 onClick={handlePlay}
                 className="absolute inset-0 flex items-center justify-center bg-background/40 backdrop-blur-sm transition-colors hover:bg-background/30"
+                aria-label="Play demo"
               >
-                <div className="flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-gradient-primary glow-primary transition-transform hover:scale-110">
-                  <Play className="h-6 w-6 text-primary-foreground ml-1" />
-                </div>
+                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-primary glow-primary transition-transform hover:scale-110 sm:h-16 sm:w-16">
+                  <Play className="ml-1 h-6 w-6 text-primary-foreground" />
+                </span>
               </button>
             )}
           </div>

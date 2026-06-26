@@ -1,4 +1,5 @@
 import { m } from "framer-motion";
+import { Quote } from "lucide-react";
 import { TESTIMONIALS } from "@landing/infrastructure/ui/constants/landing.constants";
 
 export const TestimonialsSection = () => {
@@ -9,29 +10,35 @@ export const TestimonialsSection = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="mb-10 sm:mb-14 text-center text-2xl font-bold text-bright sm:text-3xl md:text-4xl"
+        className="mb-10 text-center font-display text-3xl font-bold text-bright sm:mb-14 sm:text-4xl"
       >
-        What <span className="text-gradient">developers</span> say
+        Teams that left the <span className="text-gradient">rent behind</span>
       </m.h2>
 
-      <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {TESTIMONIALS.map((t, i) => (
-          <m.div
-            key={i}
-            initial={{ opacity: 0, y: 30 }}
+          <m.figure
+            key={t.author}
+            initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.12 }}
-            className="glass rounded-2xl p-6 flex flex-col justify-between"
+            className="surface-card flex flex-col justify-between rounded-2xl p-6"
           >
-            <p className="text-sm leading-relaxed text-foreground/80 mb-6">
-              "{t.quote}"
-            </p>
-            <div>
-              <p className="text-sm font-semibold text-bright">{t.author}</p>
-              <p className="text-xs text-muted-foreground">{t.role}</p>
-            </div>
-          </m.div>
+            <Quote className="h-6 w-6 text-primary/40" />
+            <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-foreground/85">
+              {t.quote}
+            </blockquote>
+            <figcaption className="mt-6 flex items-center gap-3">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-primary font-display text-xs font-bold text-primary-foreground">
+                {t.initials}
+              </span>
+              <span>
+                <span className="block text-sm font-semibold text-bright">{t.author}</span>
+                <span className="block text-xs text-muted-foreground">{t.role}</span>
+              </span>
+            </figcaption>
+          </m.figure>
         ))}
       </div>
     </div>

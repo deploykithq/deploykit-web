@@ -3,40 +3,56 @@ import { STEPS } from "@landing/infrastructure/ui/constants/landing.constants";
 
 export const HowItWorksSection = () => {
   return (
-    <section id="how-it-works" className="relative py-20 sm:py-32">
+    <section id="how-it-works" className="relative py-20 sm:py-28">
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="mb-10 sm:mb-16 text-center">
+        <div className="mx-auto max-w-2xl text-center">
+          <m.span
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary"
+          >
+            Workflow
+          </m.span>
           <m.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-2xl font-bold text-bright sm:text-3xl md:text-4xl"
+            className="mt-3 font-display text-3xl font-bold text-bright sm:text-4xl md:text-5xl"
           >
-            It's that <span className="text-gradient">simple</span>
+            Four steps to <span className="text-gradient">production</span>
           </m.h2>
         </div>
 
-        <div className="relative mx-auto grid max-w-4xl gap-6 sm:gap-8 grid-cols-2 lg:grid-cols-4">
-          <div className="absolute top-12 left-[10%] right-[10%] hidden h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent lg:block" />
+        <div className="relative mx-auto mt-14 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {/* animated connector line (desktop) */}
+          <div className="pointer-events-none absolute top-7 left-[12%] right-[12%] hidden h-px lg:block">
+            <div className="h-full w-full bg-[linear-gradient(90deg,transparent,hsl(var(--primary)/0.5),transparent)] bg-[length:200%_100%] animate-pipeline-flow" />
+          </div>
 
           {STEPS.map((step, index) => (
             <m.div
               key={step.step}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="relative text-center"
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.5, delay: index * 0.12 }}
+              className="group surface-card relative rounded-2xl p-5"
             >
-              <div className="relative mx-auto mb-4 sm:mb-5 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-2xl glass border-glow">
-                <step.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+              <div className="flex items-center justify-between">
+                <div className="relative flex h-14 w-14 items-center justify-center rounded-xl surface-raised text-primary transition-colors group-hover:border-glow">
+                  <step.icon className="h-6 w-6" />
+                </div>
+                <span className="font-mono text-3xl font-bold text-foreground/10">
+                  {step.step}
+                </span>
               </div>
-              <span className="mb-2 block font-mono text-xs text-primary">
-                {step.step}
-              </span>
-              <h3 className="mb-2 text-sm font-semibold text-bright">{step.title}</h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">
+
+              <h3 className="mt-4 font-display text-base font-semibold text-bright">
+                {step.title}
+              </h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
                 {step.description}
               </p>
             </m.div>

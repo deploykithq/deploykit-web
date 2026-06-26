@@ -1,17 +1,30 @@
 import {
   GitBranch,
-  Shield,
+  Boxes,
+  Webhook,
+  GitPullRequest,
+  History,
   Database,
+  DatabaseBackup,
+  FileLock2,
+  ScrollText,
+  Gauge,
   Globe,
-  Activity,
-  Layers,
   Server,
+  Users,
+  ClipboardList,
+  Layers,
+  Bell,
   Rocket,
-  Clock,
+  Activity,
+  ShieldCheck,
+  Terminal,
   Zap,
+  Lock,
+  Package,
 } from "lucide-react";
 import type {
-  FeatureI,
+  PillarI,
   StatI,
   StepI,
   TechnologyI,
@@ -21,81 +34,182 @@ import type {
 
 export const NAV_LINKS: NavLinkI[] = [
   { href: "#features", label: "Features" },
-  { href: "#demo", label: "Demo" },
   { href: "#how-it-works", label: "How it works" },
+  { href: "#demo", label: "Demo" },
   { href: "/docs", label: "Docs" },
 ];
 
-export const FEATURES: FeatureI[] = [
+export const GITHUB_URL = "https://github.com/shakarr/deploykit";
+
+/**
+ * The 16 product capabilities (from the DeployKit README) grouped into four
+ * pillars that describe the lifecycle of a service: ship it, give it data,
+ * operate it, govern it.
+ */
+export const PILLARS: PillarI[] = [
   {
-    icon: GitBranch,
-    title: "Git Push to Deploy",
-    description:
-      "Connect your GitHub repository and deploy automatically with every push via webhooks.",
+    id: "ship",
+    index: "01",
+    label: "Ship",
+    tagline: "From git push to a running container, automatically.",
+    icon: Rocket,
+    features: [
+      {
+        icon: GitBranch,
+        title: "App Deployments",
+        description: "Deploy from GitHub, GitLab, any Git repo, or a Docker image.",
+        wide: true,
+      },
+      {
+        icon: Boxes,
+        title: "Auto-Build",
+        description: "Nixpacks auto-detection, Dockerfile, or Cloud Native Buildpacks.",
+        tag: "Nixpacks",
+      },
+      {
+        icon: Webhook,
+        title: "Auto-Deploy",
+        description: "GitHub & GitLab webhooks trigger a deploy on every push.",
+      },
+      {
+        icon: GitPullRequest,
+        title: "Preview Deployments",
+        description: "Every PR gets an isolated environment on its own subdomain.",
+      },
+      {
+        icon: History,
+        title: "Rollbacks",
+        description: "One-click rollback to any previous deployment.",
+      },
+    ],
   },
   {
+    id: "data",
+    index: "02",
+    label: "Data",
+    tagline: "Stateful services, provisioned and protected.",
     icon: Database,
-    title: "Databases",
-    description:
-      "Provision PostgreSQL, MySQL, Redis and more databases with a single click.",
+    features: [
+      {
+        icon: Database,
+        title: "Databases",
+        description:
+          "One-click PostgreSQL, MySQL, MongoDB, Redis and MariaDB instances.",
+        tag: "5 engines",
+        wide: true,
+      },
+      {
+        icon: DatabaseBackup,
+        title: "Automated Backups",
+        description: "Scheduled backups with retention policies and one-click restore.",
+      },
+      {
+        icon: FileLock2,
+        title: "Environment Variables",
+        description: "Managed in the UI, encrypted at rest.",
+        tag: "AES-256-GCM",
+      },
+    ],
   },
   {
-    icon: Globe,
-    title: "Domains & SSL",
-    description:
-      "Set up custom domains with automatic SSL certificates for every service.",
-  },
-  {
-    icon: Shield,
-    title: "Self-hosted",
-    description:
-      "Run on your own server. No vendor lock-in, your data always under your control.",
-  },
-  {
+    id: "operate",
+    index: "03",
+    label: "Operate",
+    tagline: "See everything, run it anywhere.",
     icon: Activity,
-    title: "Monitoring & Logs",
-    description:
-      "Real-time logs, configurable health checks and alerts for every application.",
+    features: [
+      {
+        icon: ScrollText,
+        title: "Real-Time Logs",
+        description: "Build, deploy and container logs streamed live over Socket.IO.",
+        tag: "Socket.IO",
+        wide: true,
+      },
+      {
+        icon: Gauge,
+        title: "Monitoring",
+        description: "CPU, memory and network stats per container.",
+      },
+      {
+        icon: Globe,
+        title: "Domains & SSL",
+        description: "Automatic Let's Encrypt certificates via Traefik.",
+      },
+      {
+        icon: Server,
+        title: "Remote Servers",
+        description: "Deploy to additional servers over SSH from one dashboard.",
+      },
+    ],
   },
   {
-    icon: Layers,
-    title: "Nixpacks Builds",
-    description:
-      "Auto-detection of language and buildpacks. Support for Docker, Node, Python, Go and more.",
+    id: "govern",
+    index: "04",
+    label: "Govern",
+    tagline: "Control who does what, and keep the receipts.",
+    icon: ShieldCheck,
+    features: [
+      {
+        icon: Users,
+        title: "Role-Based Access",
+        description: "Admin, Operator and Viewer roles with project-level overrides.",
+      },
+      {
+        icon: ClipboardList,
+        title: "Audit Logs",
+        description: "Full action history with automatic retention cleanup.",
+      },
+      {
+        icon: Layers,
+        title: "Multi-Project",
+        description: "Organize services into logical projects.",
+      },
+      {
+        icon: Bell,
+        title: "Notifications",
+        description: "Discord, Slack, Telegram, Email and Webhook channels.",
+        tag: "5 channels",
+        wide: true,
+      },
+    ],
   },
 ];
 
 export const STATS: StatI[] = [
-  { icon: Server, value: 500, suffix: "+", label: "Active servers" },
-  { icon: Rocket, value: 12000, suffix: "+", label: "Deploys completed" },
-  { icon: Database, value: 99.9, suffix: "%", label: "Average uptime", decimals: 1 },
-  { icon: Clock, value: 30, suffix: "s", label: "Deploy time" },
+  { icon: Package, value: 16, suffix: "", label: "Built-in capabilities" },
+  { icon: Database, value: 5, suffix: "", label: "One-click databases" },
+  { icon: Lock, value: 256, suffix: "-bit", label: "AES-GCM encryption" },
+  { icon: ShieldCheck, value: 100, suffix: "%", label: "Self-hosted, no lock-in" },
 ];
 
 export const STEPS: StepI[] = [
   {
-    icon: Server,
+    icon: Terminal,
     step: "01",
     title: "Install on your server",
-    description: "A single command to install DeployKit on any VPS or dedicated server.",
+    description: "One command installs DeployKit on any VPS, behind Traefik with auto-SSL.",
+    command: "npm i -g @deploykit/cli && deploykit install",
   },
   {
     icon: GitBranch,
     step: "02",
     title: "Connect your repo",
-    description: "Link your GitHub repository and set up the webhook for automatic deploys.",
+    description: "Link a GitHub or GitLab repository and DeployKit wires up the webhook.",
+    command: "deploykit link github.com/you/app",
   },
   {
     icon: Zap,
     step: "03",
-    title: "Deploy",
-    description: "DeployKit detects your stack, builds the image and deploys your application.",
+    title: "Push to deploy",
+    description: "DeployKit detects your stack, builds the image and ships it.",
+    command: "git push origin main",
   },
   {
     icon: Globe,
     step: "04",
-    title: "Online!",
-    description: "Your app is running with SSL, custom domain and monitoring included.",
+    title: "It's live",
+    description: "Your app is online with SSL, a custom domain and monitoring included.",
+    command: "https://app.yourdomain.com",
   },
 ];
 
@@ -114,18 +228,42 @@ export const TECHNOLOGIES: TechnologyI[] = [
 
 export const TESTIMONIALS: TestimonialI[] = [
   {
-    quote: "DeployKit allowed us to migrate 10 services from Heroku to our own server in a weekend. Incredible.",
+    quote:
+      "We migrated 10 services off Heroku to our own box in a weekend. The git-push flow just worked.",
     author: "Carlos M.",
     role: "CTO at a gaming startup",
+    initials: "CM",
   },
   {
-    quote: "The simplicity of git push and having everything running with automatic SSL is exactly what we needed.",
+    quote:
+      "git push and everything comes up with automatic SSL. That's exactly the experience we wanted to self-host.",
     author: "Ana R.",
     role: "Lead Developer",
+    initials: "AR",
   },
   {
-    quote: "Self-hosted, open source and no recurring platform costs. There's nothing better for small teams.",
+    quote:
+      "Self-hosted, open source and no recurring platform bill. For a small team there's nothing better.",
     author: "Diego L.",
     role: "Indie Hacker",
+    initials: "DL",
   },
 ];
+
+/** Lines streamed by the hero deploy console. */
+export const DEPLOY_LOG: { text: string; tone: "dim" | "info" | "ok" }[] = [
+  { text: "→ Detected Nixpacks · Node.js 20", tone: "dim" },
+  { text: "↑ Building image  layers 12/12", tone: "info" },
+  { text: "✓ Pushed  ghcr.io/you/app:sha-9f2c", tone: "ok" },
+  { text: "↻ Rolling out  replicas 2/2 healthy", tone: "info" },
+  { text: "✓ Certificate issued · Let's Encrypt", tone: "ok" },
+  { text: "● Live  https://app.yourdomain.com", tone: "ok" },
+];
+
+/** Stages of the hero pipeline visualization. */
+export const PIPELINE_STAGES = [
+  { id: "git", label: "git push", icon: GitBranch },
+  { id: "build", label: "build", icon: Boxes },
+  { id: "deploy", label: "deploy", icon: Rocket },
+  { id: "live", label: "live", icon: Globe },
+] as const;

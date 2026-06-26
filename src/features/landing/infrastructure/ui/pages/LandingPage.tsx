@@ -2,11 +2,11 @@ import { LazyMotion, domAnimation } from "framer-motion";
 import {
   Navbar,
   HeroSection,
+  TechSection,
   StatsSection,
   FeaturesSection,
-  DemoSection,
   HowItWorksSection,
-  TechSection,
+  DemoSection,
   TestimonialsSection,
   CTASection,
   Footer,
@@ -15,18 +15,20 @@ import {
 export const LandingPage = () => {
   return (
     <LazyMotion features={domAnimation} strict>
-      <div className="min-h-screen bg-background">
+      <div className="grain min-h-screen overflow-x-hidden">
         <Navbar />
-        <HeroSection />
-        {/* <StatsSection /> */}
-        <FeaturesSection />
-        <DemoSection />
-        <HowItWorksSection />
-        <section className="relative py-20 sm:py-32 overflow-hidden">
+        <main>
+          <HeroSection />
           <TechSection />
-          <TestimonialsSection />
-        </section>
-        <CTASection />
+          <StatsSection />
+          <FeaturesSection />
+          <HowItWorksSection />
+          <DemoSection />
+          <section className="relative py-20 sm:py-28">
+            <TestimonialsSection />
+          </section>
+          <CTASection />
+        </main>
         <Footer />
       </div>
     </LazyMotion>

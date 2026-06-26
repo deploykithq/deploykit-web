@@ -1,6 +1,8 @@
 import { m, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Terminal } from "lucide-react";
+import { ArrowRight, Star, Terminal } from "lucide-react";
 import { useRef } from "react";
+import { GITHUB_URL } from "@landing/infrastructure/ui/constants/landing.constants";
+import { DeployPipeline } from "./DeployPipeline";
 
 export const HeroSection = () => {
   const sectionRef = useRef(null);
@@ -9,79 +11,101 @@ export const HeroSection = () => {
     offset: ["start start", "end start"],
   });
 
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const terminalY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
+  const gridY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const orbY = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
+  const visualY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      <m.div style={{ y: bgY }} className="absolute inset-0 dot-grid opacity-40 will-change-transform" />
+    <section
+      ref={sectionRef}
+      className="relative flex min-h-screen items-center overflow-hidden pt-28 pb-16 sm:pt-32"
+    >
+      {/* ambient layers */}
+      <m.div
+        style={{ y: gridY }}
+        className="pointer-events-none absolute inset-0 line-grid opacity-[0.5] mask-fade-b will-change-transform"
+      />
+      <m.div
+        style={{ y: orbY }}
+        className="pointer-events-none absolute -top-20 right-[-10%] h-[520px] w-[520px] rounded-full bg-gradient-primary opacity-[0.12] blur-[130px] will-change-transform"
+      />
+      <div className="pointer-events-none absolute bottom-0 left-[-5%] h-[380px] w-[380px] rounded-full bg-success opacity-[0.06] blur-[120px]" />
 
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gradient-primary opacity-[0.07] blur-[120px]" />
-
-      <div className="absolute top-[15%] left-[10%] h-2 w-2 rounded-full bg-primary/40 animate-float" />
-      <div className="absolute top-[25%] right-[15%] h-3 w-3 rounded-full bg-primary/20 animate-float" />
-      <div className="absolute bottom-[30%] left-[20%] h-1.5 w-1.5 rounded-full bg-primary/30 animate-float" />
-
-      <m.div style={{ y: textY }} className="container relative mx-auto px-4 sm:px-6 text-center will-change-transform">
-        {/* Above-fold content uses CSS animations for instant visibility (no JS delay = better LCP) */}
-        <div className="mb-6 animate-hero-fade-in" style={{ animationDelay: "0.1s" }}>
-          <span className="inline-flex items-center gap-2 rounded-full border border-glow bg-secondary px-4 py-1.5 text-xs font-medium text-muted-foreground">
-            <span className="h-1.5 w-1.5 rounded-full bg-gradient-primary animate-pulse-glow" />
-            Open Source PaaS · Self-hosted
-          </span>
-        </div>
-
-        <h1 className="mx-auto max-w-4xl text-3xl font-extrabold leading-tight tracking-tight text-bright sm:text-5xl md:text-6xl lg:text-7xl animate-hero-fade-in" style={{ animationDelay: "0.15s" }}>
-          Deploy your apps{" "}
-          <span className="text-gradient">on your own server</span>
-        </h1>
-
-        <p className="mx-auto mt-4 sm:mt-6 max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed animate-hero-fade-in" style={{ animationDelay: "0.25s" }}>
-          The platform that simplifies deploying applications, databases
-          and services on your infrastructure. No vendor lock-in, full control.
-        </p>
-
-        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 animate-hero-fade-in" style={{ animationDelay: "0.35s" }}>
-          <a
-            href="#cta"
-            className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-gradient-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground transition-all hover:opacity-90 glow-primary"
-          >
-            Get Started
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </a>
-          <a
-            href="#demo"
-            className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl border border-border bg-secondary px-7 py-3.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
-          >
-            <Terminal className="h-4 w-4" />
-            Watch Demo
-          </a>
-        </div>
-
-        <m.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-          style={{ y: terminalY }}
-          className="mx-auto mt-10 sm:mt-16 max-w-lg will-change-transform"
-        >
-          <div className="glass rounded-xl p-4">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="h-3 w-3 rounded-full bg-destructive/60" />
-              <span className="h-3 w-3 rounded-full bg-yellow-500/60" />
-              <span className="h-3 w-3 rounded-full bg-green-500/60" />
+      <div className="container relative mx-auto px-4 sm:px-6">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-8">
+          {/* ---- copy ---- */}
+          <div className="text-center lg:text-left">
+            <div className="animate-hero-fade-in" style={{ animationDelay: "0.05s" }}>
+              <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-1/80 px-3.5 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur">
+                <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse-glow" />
+                Open-source PaaS · Self-hosted · MIT
+              </span>
             </div>
-            <code className="block text-left font-mono text-xs sm:text-sm text-muted-foreground overflow-x-auto">
-              <span className="text-dim">$</span>{" "}
-              <span className="text-foreground whitespace-nowrap">curl -fsSL https://get.deploykit.es | sh</span>
-              <span className="block text-dim my-1"># or via npm</span>
-              <span className="text-dim">$</span>{" "}
-              <span className="text-foreground whitespace-nowrap">npm i -g @deploykit/cli && deploykit install</span>
-            </code>
+
+            <h1
+              className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight text-bright sm:text-5xl lg:text-6xl xl:text-7xl animate-hero-fade-in"
+              style={{ animationDelay: "0.12s" }}
+            >
+              Your own cloud,
+              <br className="hidden sm:block" />{" "}
+              <span className="text-gradient">one git push</span> away
+            </h1>
+
+            <p
+              className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:mx-0 animate-hero-fade-in"
+              style={{ animationDelay: "0.22s" }}
+            >
+              DeployKit runs apps, databases and services on your own servers — with
+              auto-builds, SSL, real-time logs and backups. The open alternative to
+              Vercel and Heroku, with zero vendor lock-in.
+            </p>
+
+            <div
+              className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start animate-hero-fade-in"
+              style={{ animationDelay: "0.32s" }}
+            >
+              <a
+                href="#cta"
+                className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground transition-all hover:opacity-95 glow-primary sm:w-auto"
+              >
+                Get started
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </a>
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex w-full items-center justify-center gap-2 rounded-xl surface-card px-7 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-glow sm:w-auto"
+              >
+                <Star className="h-4 w-4 text-warning transition-transform group-hover:scale-110" />
+                Star on GitHub
+              </a>
+            </div>
+
+            {/* install one-liner */}
+            <div
+              className="mx-auto mt-6 flex max-w-md items-center gap-3 rounded-xl surface-card px-4 py-3 lg:mx-0 animate-hero-fade-in"
+              style={{ animationDelay: "0.42s" }}
+            >
+              <Terminal className="h-4 w-4 shrink-0 text-primary" />
+              <code className="flex-1 overflow-x-auto whitespace-nowrap text-left font-mono text-xs text-foreground/90">
+                <span className="text-dim">$ </span>npm i -g @deploykit/cli && deploykit install
+              </code>
+            </div>
           </div>
-        </m.div>
-      </m.div>
+
+          {/* ---- signature visual ---- */}
+          <m.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            style={{ y: visualY }}
+            className="will-change-transform"
+          >
+            <DeployPipeline />
+          </m.div>
+        </div>
+      </div>
     </section>
   );
 };
