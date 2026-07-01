@@ -1,6 +1,7 @@
 import { m } from "framer-motion";
-import { ArrowRight, Check, Copy, Rocket } from "lucide-react";
 import { useCallback, useState } from "react";
+import { ArrowRight, Check, Copy, Rocket } from "lucide-react";
+
 import { GITHUB_URL } from "@landing/infrastructure/ui/constants/landing.constants";
 
 const INSTALL_CMD = "npm i -g @deploykit/cli && deploykit install";

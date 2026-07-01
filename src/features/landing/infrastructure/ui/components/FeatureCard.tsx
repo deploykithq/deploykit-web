@@ -1,5 +1,6 @@
 import { memo, useRef } from "react";
 import { m, useInView } from "framer-motion";
+
 import type { FeatureI } from "@landing/infrastructure/ui/types/landing.module.types";
 
 interface FeatureCardPropsI {

@@ -34,7 +34,7 @@ export const HeroSection = () => {
       <div className="container relative mx-auto px-4 sm:px-6">
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-8">
           {/* ---- copy ---- */}
-          <div className="text-center lg:text-left">
+          <div className="min-w-0 text-center lg:text-left">
             <div className="animate-hero-fade-in" style={{ animationDelay: "0.05s" }}>
               <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-1/80 px-3.5 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur">
                 <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse-glow" />
@@ -100,7 +100,7 @@ export const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
             style={{ y: visualY }}
-            className="will-change-transform"
+            className="min-w-0 will-change-transform"
           >
             <DeployPipeline />
           </m.div>

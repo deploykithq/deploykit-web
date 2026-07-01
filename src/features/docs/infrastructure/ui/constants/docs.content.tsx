@@ -146,20 +146,18 @@ export const DOCS_CONTENT: Record<string, DocsSectionContentI> = {
         </div>
         <div>
           <h3 className="text-lg font-semibold text-bright mb-3">
-            Install via npm CLI
+            Install via npm CLI (Recommended)
           </h3>
           <p className="text-muted-foreground mb-4">
-            If you already have Node.js 20+ on the VPS, install the official
-            CLI globally and run the installer with the same prompts and flags:
+            If you already have Node.js 20+ on the VPS, install the official CLI
+            globally and run the installer with the same prompts and flags:
           </p>
           <CodeBlock
             language="bash"
-            code={`npm install -g @deploykit/cli
-sudo deploykit install \\
-  --domain deploy.example.com \\
-  --email you@example.com \\
-  --admin-email admin@example.com \\
-  --admin-password mypassword123`}
+            code={`
+              npm install -g @deploykit/cli
+              sudo deploykit install
+            `}
           />
           <p className="text-sm text-muted-foreground mt-3">
             Omit any flag to drop into interactive mode. The CLI also exposes
@@ -249,7 +247,8 @@ pnpm db:migrate`}
               https://panel.yourdomain.com
             </code>
             ). If this is a fresh installation with no existing users, you'll be
-            presented with a registration form to create the first admin account.
+            presented with a registration form to create the first admin
+            account.
           </p>
         </div>
         <div>
@@ -323,9 +322,7 @@ cd /opt/deploykit && ./update.sh`}
           </p>
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-bright mb-3">
-            5. Deploy
-          </h3>
+          <h3 className="text-lg font-semibold text-bright mb-3">5. Deploy</h3>
           <p className="text-muted-foreground leading-relaxed">
             Click the{" "}
             <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
@@ -413,12 +410,11 @@ cd /opt/deploykit && ./update.sh`}
               </p>
             </div>
             <div className="rounded-lg border border-border bg-card p-4">
-              <p className="font-medium text-bright">
-                Cloud Native Buildpacks
-              </p>
+              <p className="font-medium text-bright">Cloud Native Buildpacks</p>
               <p className="text-sm text-muted-foreground mt-1">
                 Alternative auto-detection method using the Buildpacks
-                specification. Good for projects that follow standard conventions.
+                specification. Good for projects that follow standard
+                conventions.
               </p>
             </div>
           </div>
@@ -432,8 +428,8 @@ cd /opt/deploykit && ./update.sh`}
             <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
               Root Directory
             </code>{" "}
-            in the application settings. DeployKit will use that directory as the
-            build context.
+            in the application settings. DeployKit will use that directory as
+            the build context.
           </p>
         </div>
         <div>
@@ -451,16 +447,14 @@ cd /opt/deploykit && ./update.sh`}
           </p>
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-bright mb-3">
-            Volumes
-          </h3>
+          <h3 className="text-lg font-semibold text-bright mb-3">Volumes</h3>
           <p className="text-muted-foreground leading-relaxed">
             Configure persistent storage mounts using the{" "}
             <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
               host:container
             </code>{" "}
-            format. Volumes persist across deployments, ensuring your data is not
-            lost when a container is replaced.
+            format. Volumes persist across deployments, ensuring your data is
+            not lost when a container is replaced.
           </p>
         </div>
         <div>
@@ -489,9 +483,7 @@ cd /opt/deploykit && ./update.sh`}
           </p>
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-bright mb-3">
-            Rollbacks
-          </h3>
+          <h3 className="text-lg font-semibold text-bright mb-3">Rollbacks</h3>
           <p className="text-muted-foreground leading-relaxed">
             Every deployment creates a record with commit hash, build logs, and
             the Docker image used. You can roll back to any previous successful
@@ -569,9 +561,7 @@ cd /opt/deploykit && ./update.sh`}
                 className="rounded-lg border border-border bg-card p-4"
               >
                 <p className="font-medium text-bright">{db.name}</p>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {db.desc}
-                </p>
+                <p className="text-sm text-muted-foreground mt-1">{db.desc}</p>
               </div>
             ))}
           </div>
@@ -586,9 +576,10 @@ cd /opt/deploykit && ./update.sh`}
               Create Database
             </code>
             . Select the type, version, and target server. DeployKit
-            automatically generates a secure password, creates the container, and
-            provides you with the connection string in the correct format for
-            your database type. You can also deploy databases to remote servers.
+            automatically generates a secure password, creates the container,
+            and provides you with the connection string in the correct format
+            for your database type. You can also deploy databases to remote
+            servers.
           </p>
         </div>
         <div>
@@ -620,8 +611,8 @@ redis://host:6379`}
             Automatic Backups
           </h3>
           <p className="text-muted-foreground leading-relaxed mb-3">
-            Enable automatic backups for any database from the database settings.
-            Configure a cron schedule and retention period:
+            Enable automatic backups for any database from the database
+            settings. Configure a cron schedule and retention period:
           </p>
           <ul className="space-y-2 text-muted-foreground">
             {[
@@ -642,9 +633,9 @@ redis://host:6379`}
             Restoring a Backup
           </h3>
           <p className="text-muted-foreground leading-relaxed">
-            From the database detail page, view all available backups and restore
-            to any previous backup with one click. This operation requires Admin
-            role permissions.
+            From the database detail page, view all available backups and
+            restore to any previous backup with one click. This operation
+            requires Admin role permissions.
           </p>
         </div>
         <div>
@@ -652,8 +643,8 @@ redis://host:6379`}
             MongoDB Replica Sets
           </h3>
           <p className="text-muted-foreground leading-relaxed">
-            For MongoDB databases, you can optionally enable replica set mode for
-            sharding and high availability.
+            For MongoDB databases, you can optionally enable replica set mode
+            for sharding and high availability.
           </p>
         </div>
       </div>
@@ -729,10 +720,10 @@ A record: *.example.com → YOUR_SERVER_IP`}
             How Routing Works
           </h3>
           <p className="text-muted-foreground leading-relaxed">
-            When a container is deployed, DeployKit attaches Traefik labels to it
-            with the domain configuration. Traefik automatically picks up these
-            labels and creates routing rules, directing incoming traffic on the
-            specified domain to the correct container and port.
+            When a container is deployed, DeployKit attaches Traefik labels to
+            it with the domain configuration. Traefik automatically picks up
+            these labels and creates routing rules, directing incoming traffic
+            on the specified domain to the correct container and port.
           </p>
         </div>
       </div>
@@ -740,7 +731,8 @@ A record: *.example.com → YOUR_SERVER_IP`}
   },
   servers: {
     title: "Servers",
-    description: "Manage local and remote servers for deploying your applications.",
+    description:
+      "Manage local and remote servers for deploying your applications.",
     content: (
       <div className="space-y-8">
         <div>
@@ -791,10 +783,10 @@ A record: *.example.com → YOUR_SERVER_IP`}
             Health Checks
           </h3>
           <p className="text-muted-foreground leading-relaxed">
-            DeployKit runs health checks on servers to verify Docker installation
-            and collect system information including Docker version, total CPU
-            cores, memory, and disk space. You can test SSH connectivity at any
-            time from the server management page.
+            DeployKit runs health checks on servers to verify Docker
+            installation and collect system information including Docker
+            version, total CPU cores, memory, and disk space. You can test SSH
+            connectivity at any time from the server management page.
           </p>
         </div>
         <div>
@@ -870,8 +862,8 @@ A record: *.example.com → YOUR_SERVER_IP`}
             Parent-Child Relationship
           </h3>
           <p className="text-muted-foreground leading-relaxed">
-            Preview apps are linked to their parent application. They inherit the
-            same build configuration but run as independent containers. Each
+            Preview apps are linked to their parent application. They inherit
+            the same build configuration but run as independent containers. Each
             preview tracks the PR number and branch name. When the PR is closed,
             the preview environment can be cleaned up.
           </p>
@@ -881,8 +873,7 @@ A record: *.example.com → YOUR_SERVER_IP`}
   },
   notifications: {
     title: "Notifications",
-    description:
-      "Configure alerts for deployments, errors, backups, and more.",
+    description: "Configure alerts for deployments, errors, backups, and more.",
     content: (
       <div className="space-y-8">
         <div>
@@ -961,9 +952,10 @@ A record: *.example.com → YOUR_SERVER_IP`}
             Global vs Project Channels
           </h3>
           <p className="text-muted-foreground leading-relaxed">
-            Notification channels can be configured globally (receive alerts from
-            all projects) or scoped to a specific project. This allows you to
-            send production alerts to one channel and staging alerts to another.
+            Notification channels can be configured globally (receive alerts
+            from all projects) or scoped to a specific project. This allows you
+            to send production alerts to one channel and staging alerts to
+            another.
           </p>
         </div>
         <div>
@@ -984,8 +976,7 @@ A record: *.example.com → YOUR_SERVER_IP`}
   },
   "users-rbac": {
     title: "Users & RBAC",
-    description:
-      "Manage users and control access with role-based permissions.",
+    description: "Manage users and control access with role-based permissions.",
     content: (
       <div className="space-y-8">
         <div>
@@ -1101,9 +1092,7 @@ A record: *.example.com → YOUR_SERVER_IP`}
           </p>
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-bright mb-3">
-            Live Logs
-          </h3>
+          <h3 className="text-lg font-semibold text-bright mb-3">Live Logs</h3>
           <p className="text-muted-foreground leading-relaxed">
             The{" "}
             <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
@@ -1116,12 +1105,10 @@ A record: *.example.com → YOUR_SERVER_IP`}
           </p>
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-bright mb-3">
-            Build Logs
-          </h3>
+          <h3 className="text-lg font-semibold text-bright mb-3">Build Logs</h3>
           <p className="text-muted-foreground leading-relaxed">
-            During deployment, build and deploy logs are streamed in real-time to
-            the dashboard. Sensitive values (tokens, passwords, keys) are
+            During deployment, build and deploy logs are streamed in real-time
+            to the dashboard. Sensitive values (tokens, passwords, keys) are
             automatically redacted from logs to prevent accidental exposure.
             Historical build logs are stored with each deployment record.
           </p>
@@ -1350,8 +1337,7 @@ Body: { "refreshToken": "<refresh_token>" }`}
   },
   config: {
     title: "Configuration",
-    description:
-      "All configuration is done through environment variables.",
+    description: "All configuration is done through environment variables.",
     content: (
       <div className="space-y-8">
         <div>
@@ -1475,8 +1461,8 @@ pnpm clean        # Remove dist/ directories`}
             How Auto-Deploy Works
           </h3>
           <p className="text-muted-foreground leading-relaxed">
-            DeployKit receives webhook events from GitHub and GitLab. When a push
-            event matches an application's repository URL and branch, a new
+            DeployKit receives webhook events from GitHub and GitLab. When a
+            push event matches an application's repository URL and branch, a new
             deployment is automatically triggered. This means every push to your
             configured branch results in an automatic deployment.
           </p>
@@ -1527,9 +1513,9 @@ pnpm clean        # Remove dist/ directories`}
             Webhook Security
           </h3>
           <p className="text-muted-foreground leading-relaxed">
-            All incoming webhooks are verified before processing. GitHub webhooks
-            are validated using HMAC-SHA256 signature verification, and GitLab
-            webhooks are validated using secret token comparison. Invalid
+            All incoming webhooks are verified before processing. GitHub
+            webhooks are validated using HMAC-SHA256 signature verification, and
+            GitLab webhooks are validated using secret token comparison. Invalid
             signatures are rejected with a 401 response. Webhook endpoints are
             rate-limited to 30 requests per minute per IP.
           </p>
@@ -1541,8 +1527,8 @@ pnpm clean        # Remove dist/ directories`}
           <p className="text-muted-foreground leading-relaxed mb-4">
             Since DeployKit auto-deploys on push via webhooks, you don't
             typically need CI/CD pipeline integration. However, if you want to
-            trigger deployments from CI/CD (e.g., after tests pass), you can call
-            the tRPC API directly:
+            trigger deployments from CI/CD (e.g., after tests pass), you can
+            call the tRPC API directly:
           </p>
           <CodeBlock
             language="yaml"
@@ -1589,8 +1575,7 @@ jobs:
   },
   "audit-logs": {
     title: "Audit Logs",
-    description:
-      "Track all user actions for security and compliance.",
+    description: "Track all user actions for security and compliance.",
     content: (
       <div className="space-y-8">
         <div>
@@ -1683,15 +1668,15 @@ jobs:
             <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
               @deploykit/cli
             </code>{" "}
-            is the official Node CLI for DeployKit. It is a feature-complete port
-            of the{" "}
+            is the official Node CLI for DeployKit. It is a feature-complete
+            port of the{" "}
             <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
               curl | sh
             </code>{" "}
-            installer with the same prompts, flags, and behavior, plus
-            day-2 commands for status, logs, restart, update, and uninstall.
-            It only runs on Linux as root — connect to your VPS via SSH and run
-            it there.
+            installer with the same prompts, flags, and behavior, plus day-2
+            commands for status, logs, restart, update, and uninstall. It only
+            runs on Linux as root — connect to your VPS via SSH and run it
+            there.
           </p>
         </div>
         <div>
@@ -1718,8 +1703,8 @@ sudo npx @deploykit/cli install --domain deploy.example.com --email you@example.
             <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
               /opt/deploykit
             </code>
-            , generates secrets, builds and starts every service, and
-            optionally pre-creates the admin account.
+            , generates secrets, builds and starts every service, and optionally
+            pre-creates the admin account.
           </p>
           <CodeBlock
             language="bash"
@@ -1750,7 +1735,11 @@ sudo npx @deploykit/cli install --domain deploy.example.com --email you@example.
                   ["--domain <domain>", "Dashboard domain (required)", "—"],
                   ["--email <email>", "Let's Encrypt email (required)", "—"],
                   ["--admin-email <email>", "Pre-create admin account", "—"],
-                  ["--admin-password <pwd>", "Admin password, min 8 chars", "—"],
+                  [
+                    "--admin-password <pwd>",
+                    "Admin password, min 8 chars",
+                    "—",
+                  ],
                   ["--dir <path>", "Install directory", "/opt/deploykit"],
                   ["--branch <branch>", "Git branch to install", "master"],
                 ].map(([flag, desc, def]) => (

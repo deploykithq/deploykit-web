@@ -1,6 +1,7 @@
-import { memo, useEffect, useRef, useState } from "react";
-import { m, useReducedMotion } from "framer-motion";
 import { Check } from "lucide-react";
+import { m, useReducedMotion } from "framer-motion";
+import { memo, useEffect, useRef, useState } from "react";
+
 import {
   DEPLOY_LOG,
   PIPELINE_STAGES,
@@ -53,10 +54,14 @@ export const DeployPipeline = memo(() => {
         <span className="h-3 w-3 rounded-full bg-destructive/70" />
         <span className="h-3 w-3 rounded-full bg-warning/70" />
         <span className="h-3 w-3 rounded-full bg-success/70" />
-        <span className="ml-2 font-mono text-[11px] text-dim">deploykit · production</span>
+        <span className="ml-2 font-mono text-[11px] text-dim">
+          deploykit · production
+        </span>
         <span className="ml-auto flex items-center gap-1.5 rounded-full border border-success/30 bg-success/10 px-2 py-0.5">
           <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse-glow" />
-          <span className="font-mono text-[10px] font-medium text-success">healthy</span>
+          <span className="font-mono text-[10px] font-medium text-success">
+            healthy
+          </span>
         </span>
       </div>
 
@@ -66,7 +71,10 @@ export const DeployPipeline = memo(() => {
           const done = i < activeStage || (allDone && i === activeStage);
           const active = i === activeStage && !done;
           return (
-            <div key={stage.id} className="flex flex-1 items-center last:flex-none">
+            <div
+              key={stage.id}
+              className="flex flex-1 items-center last:flex-none"
+            >
               <div className="flex flex-col items-center gap-2">
                 <div
                   className={[
@@ -87,7 +95,11 @@ export const DeployPipeline = memo(() => {
                 <span
                   className={[
                     "font-mono text-[9px] sm:text-[10px] transition-colors duration-500",
-                    done ? "text-success" : active ? "text-foreground" : "text-dim",
+                    done
+                      ? "text-success"
+                      : active
+                        ? "text-foreground"
+                        : "text-dim",
                   ].join(" ")}
                 >
                   {stage.label}
