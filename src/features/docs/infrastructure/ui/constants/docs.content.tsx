@@ -445,6 +445,52 @@ cd /opt/deploykit && ./update.sh`}
             rest using AES-256-GCM and injected into the container at runtime.
             Sensitive values are never stored in plain text.
           </p>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            For security, environment variables are{" "}
+            <span className="text-bright">
+              not passed as Docker build arguments
+            </span>{" "}
+            — build args leak into image layers and are readable via{" "}
+            <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
+              docker inspect
+            </code>
+            . Instead, before each build DeployKit writes your app&apos;s
+            variables to a{" "}
+            <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
+              .env
+            </code>{" "}
+            file at the root of the build context, so frameworks that inline
+            variables at build time (Vite, Create React App, Next.js) can pick
+            them up.
+          </p>
+          <ul className="space-y-2 text-muted-foreground mb-4">
+            {[
+              "Nixpacks / Buildpacks — the generated .env sits at the build context root, where most frameworks read it automatically. No extra setup needed.",
+              "Custom Dockerfile — your Dockerfile must COPY the generated .env into the build stage before the build step runs; otherwise build-time variables are silently missing.",
+              "Monorepos — the .env is written at the context root (the repo root when Root Directory is empty). Copy it into the app subdirectory: frameworks like Vite read env files from the app directory, not the monorepo root.",
+              "Check your .dockerignore — if it excludes .env, the Docker daemon drops the generated file from the build context and build-time variables never arrive.",
+            ].map((item) => (
+              <li key={item} className="flex items-start gap-2">
+                <ChevronRight className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="text-sm text-muted-foreground mb-3">
+            Example for a Vite app in a pnpm monorepo (build context = repo
+            root):
+          </p>
+          <CodeBlock
+            language="dockerfile"
+            code={`# DeployKit writes your app's env vars to a .env at the context root.
+# The ".env*" glob keeps local builds working when no .env exists.
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json .env* ./
+
+COPY apps/web apps/web
+# Vite reads env files from the app directory, not the monorepo root
+RUN if [ -f .env ]; then cp .env apps/web/.env; fi
+RUN pnpm --filter web build`}
+          />
         </div>
         <div>
           <h3 className="text-lg font-semibold text-bright mb-3">Volumes</h3>
@@ -507,6 +553,7 @@ cd /opt/deploykit && ./update.sh`}
               "A deployment record is created with status 'queued'",
               "A job is added to the BullMQ queue in Redis",
               "The deploy worker clones the repository (or pulls the Docker image)",
+              "Env vars are decrypted and written to a .env file at the build context root, so build-time variables reach the build",
               "The image is built using the selected strategy (Nixpacks/Dockerfile/Buildpacks)",
               "The old container is stopped and removed",
               "A new container is started with Traefik labels for routing",
