@@ -1,16 +1,17 @@
 import { STATS } from "@landing/infrastructure/ui/constants/landing.constants";
+import { SectionHeader } from "./SectionHeader";
 import { StatCard } from "./StatCard";
 
 export const StatsSection = () => {
   return (
-    <section className="relative py-8 sm:py-12">
-      <div className="container relative mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
-          {STATS.map((stat, i) => (
-            <StatCard key={stat.label} stat={stat} index={i} />
-          ))}
-        </div>
-      </div>
+    <section className="container mx-auto px-4 pt-16 sm:px-6 sm:pt-24">
+      <SectionHeader index="02" label="spec sheet" meta="verifiable in the repo" />
+
+      <dl className="grid grid-cols-1 border-l border-t border-border sm:grid-cols-2 lg:grid-cols-4">
+        {STATS.map((stat) => (
+          <StatCard key={stat.label} stat={stat} />
+        ))}
+      </dl>
     </section>
   );
 };

@@ -4,57 +4,50 @@
 
 @layer base {
   :root {
-    /* Base surfaces — layered elevation (mission-control depth) */
-    --background: 246 30% 6%;
-    --foreground: 222 24% 94%;
+    /* Base surfaces — near-black, neutral/warm. Hierarchy comes from borders, not shadows. */
+    --background: 60 5% 4%; /* #0B0B0A */
+    --foreground: 43 14% 90%; /* #E8E6E1 bone */
 
-    --surface-0: 246 28% 7%;
-    --surface-1: 245 26% 9%;
-    --surface-2: 244 24% 12%;
-    --surface-elevated: 244 24% 11%;
+    --surface-1: 60 3% 7%; /* #121211 */
+    --surface-2: 60 4% 9%; /* #191917 */
 
-    --card: 245 26% 9%;
-    --card-foreground: 222 24% 94%;
+    --card: 60 3% 7%;
+    --card-foreground: 43 14% 90%;
 
-    --popover: 244 24% 11%;
-    --popover-foreground: 222 24% 94%;
+    --popover: 60 4% 9%;
+    --popover-foreground: 43 14% 90%;
 
-    /* Brand violet */
-    --primary: 252 95% 68%;
-    --primary-foreground: 0 0% 100%;
+    /* The one accent: phosphor amber */
+    --primary: 41 100% 50%; /* #FFB000 */
+    --primary-foreground: 60 5% 4%;
 
-    --secondary: 244 22% 13%;
-    --secondary-foreground: 220 18% 82%;
+    --secondary: 60 4% 9%;
+    --secondary-foreground: 43 10% 82%;
 
-    --muted: 244 20% 15%;
-    --muted-foreground: 224 14% 62%;
+    --muted: 60 4% 9%;
+    --muted-foreground: 44 4% 52%; /* #8A877F */
 
-    --accent: 252 95% 68%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 41 100% 50%;
+    --accent-foreground: 60 5% 4%;
 
-    /* Functional "live / healthy" green — the second accent */
-    --success: 158 64% 52%;
-    --success-foreground: 158 80% 8%;
+    /* Terminal green — only for ok / live / healthy */
+    --success: 147 70% 55%; /* #3DDC84 */
+    --success-foreground: 60 5% 4%;
 
-    --warning: 38 92% 58%;
+    --warning: 41 100% 50%;
 
-    --destructive: 0 78% 62%;
-    --destructive-foreground: 210 40% 98%;
+    /* Red — only for errors */
+    --destructive: 2 80% 60%;
+    --destructive-foreground: 43 14% 90%;
 
-    --border: 245 20% 18%;
-    --input: 245 20% 18%;
-    --ring: 252 95% 68%;
+    --border: 48 5% 17%; /* visible 1px grid lines */
+    --input: 48 5% 17%;
+    --ring: 41 100% 50%;
 
-    --radius: 0.85rem;
+    --radius: 0px;
 
-    /* Gradient + glow tokens */
-    --gradient-start: 252 95% 68%;
-    --gradient-mid: 232 88% 66%;
-    --gradient-end: 214 90% 62%;
-    --glow-primary: 252 95% 68%;
-    --glow-success: 158 64% 52%;
-    --text-bright: 0 0% 100%;
-    --text-dim: 230 12% 48%;
+    --text-bright: 40 20% 96%;
+    --text-dim: 44 5% 47%; /* lowest-contrast text that still clears AA on the background */
   }
 }
 
@@ -64,14 +57,7 @@
   }
 
   body {
-    @apply text-foreground font-sans antialiased;
-    background-color: hsl(var(--background));
-    /* Layered atmosphere: two soft radial glows over a deep vertical wash */
-    background-image:
-      radial-gradient(60rem 40rem at 75% -10%, hsl(var(--primary) / 0.12), transparent 60%),
-      radial-gradient(50rem 36rem at 5% 8%, hsl(var(--gradient-end) / 0.08), transparent 55%),
-      linear-gradient(180deg, hsl(248 30% 7%), hsl(246 30% 6%) 40%);
-    background-attachment: fixed;
+    @apply bg-background text-foreground font-sans antialiased;
   }
 
   html {
@@ -79,55 +65,56 @@
   }
 
   ::selection {
-    background-color: hsl(var(--primary) / 0.3);
-    color: hsl(var(--text-bright));
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+
+  /* Scrollbars: thin square rail, grid-line thumb, amber on hover */
+  /* Firefox only: in Chromium these standard props would disable the ::-webkit rules below */
+  @supports (-moz-appearance: none) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: hsl(var(--border)) transparent;
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--primary));
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
   }
 
   /* Visible keyboard focus everywhere */
   :focus-visible {
-    outline: 2px solid hsl(var(--ring) / 0.7);
+    outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
-    border-radius: 4px;
   }
 }
 
 @layer utilities {
-  /* ---- Text ---- */
-  .font-display {
-    font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
-  }
-
-  .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(
-      135deg,
-      hsl(var(--gradient-start)),
-      hsl(var(--gradient-mid)) 50%,
-      hsl(var(--gradient-end))
-    );
-  }
-
-  .text-gradient-success {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--success)), hsl(174 70% 56%));
-  }
-
   .text-bright {
     color: hsl(var(--text-bright));
   }
 
   .text-dim {
     color: hsl(var(--text-dim));
-  }
-
-  /* ---- Backgrounds ---- */
-  .bg-gradient-primary {
-    background-image: linear-gradient(
-      135deg,
-      hsl(var(--gradient-start)),
-      hsl(var(--gradient-mid)) 50%,
-      hsl(var(--gradient-end))
-    );
   }
 
   .bg-surface-1 {
@@ -138,116 +125,9 @@
     background-color: hsl(var(--surface-2));
   }
 
-  /* ---- Depth: layered surfaces with lit top edge ---- */
-  .surface-card {
-    background:
-      linear-gradient(180deg, hsl(var(--surface-2) / 0.9), hsl(var(--surface-1) / 0.85));
-    border: 1px solid hsl(var(--border) / 0.7);
-    box-shadow:
-      inset 0 1px 0 hsl(0 0% 100% / 0.05),
-      0 1px 2px hsl(246 40% 2% / 0.4),
-      0 12px 30px -12px hsl(246 50% 2% / 0.7);
-  }
-
-  .surface-raised {
-    background:
-      linear-gradient(180deg, hsl(var(--surface-2)), hsl(var(--surface-1)));
-    border: 1px solid hsl(var(--border) / 0.8);
-    box-shadow:
-      inset 0 1px 0 hsl(0 0% 100% / 0.06),
-      0 2px 4px hsl(246 40% 2% / 0.5),
-      0 24px 60px -20px hsl(246 60% 2% / 0.8);
-  }
-
-  .glass {
-    background-color: hsl(var(--surface-1) / 0.6);
-    backdrop-filter: blur(16px) saturate(140%);
-    border: 1px solid hsl(var(--border) / 0.6);
-    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.04);
-  }
-
-  /* ---- Glows ---- */
-  .glow-primary {
-    box-shadow: 0 0 50px -12px hsl(var(--glow-primary) / 0.5);
-  }
-
-  .glow-sm {
-    box-shadow: 0 0 24px -6px hsl(var(--glow-primary) / 0.4);
-  }
-
-  .glow-success {
-    box-shadow: 0 0 24px -6px hsl(var(--glow-success) / 0.55);
-  }
-
-  .border-glow {
-    border-color: hsl(var(--glow-primary) / 0.35);
-  }
-
-  /* Gradient hairline ring drawn with a mask (no layout cost) */
-  .ring-gradient {
-    position: relative;
-  }
-  .ring-gradient::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--primary) / 0.6),
-      transparent 40%,
-      transparent 60%,
-      hsl(var(--gradient-end) / 0.4)
-    );
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-
-  /* ---- Textures ---- */
-  .dot-grid {
-    background-image: radial-gradient(hsl(var(--foreground) / 0.06) 1px, transparent 1px);
-    background-size: 26px 26px;
-  }
-
-  .line-grid {
-    background-image:
-      linear-gradient(hsl(var(--foreground) / 0.045) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--foreground) / 0.045) 1px, transparent 1px);
-    background-size: 48px 48px;
-  }
-
-  .grain {
-    position: relative;
-  }
-  .grain::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.035;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /* ---- Masks ---- */
-  .mask-fade-x {
-    -webkit-mask-image: linear-gradient(
-      90deg,
-      transparent,
-      #000 8%,
-      #000 92%,
-      transparent
-    );
-    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  }
-
-  .mask-fade-b {
-    -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
-    mask-image: linear-gradient(180deg, #000 60%, transparent);
+  /* Inside amber blocks the amber focus ring would vanish — draw it in ink instead. */
+  .on-accent :focus-visible {
+    outline-color: hsl(var(--primary-foreground));
   }
 }
 

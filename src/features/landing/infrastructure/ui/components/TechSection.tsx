@@ -1,42 +1,31 @@
-import { m } from "framer-motion";
 import { TECHNOLOGIES } from "@landing/infrastructure/ui/constants/landing.constants";
+import { SectionHeader } from "./SectionHeader";
 
 export const TechSection = () => {
-  // Duplicate the list so the marquee can loop seamlessly.
-  const row = [...TECHNOLOGIES, ...TECHNOLOGIES];
-
   return (
-    <div className="container mx-auto mb-16 px-4 sm:mb-24 sm:px-6">
-      <m.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="mb-8 text-center font-mono text-xs uppercase tracking-[0.25em] text-dim sm:mb-10"
-      >
-        Builds anything Nixpacks detects
-      </m.p>
+    <section className="container mx-auto px-4 pt-16 sm:px-6 sm:pt-24">
+      <SectionHeader index="01" label="builds anything nixpacks detects" meta={`${TECHNOLOGIES.length} runtimes`} />
 
-      <div className="group relative overflow-hidden mask-fade-x">
-        <div className="flex w-max animate-marquee items-center gap-10 group-hover:[animation-play-state:paused] sm:gap-16">
-          {row.map((tech, i) => (
-            <div
-              key={`${tech.name}-${i}`}
-              className="flex shrink-0 items-center gap-2.5"
-              aria-hidden={i >= TECHNOLOGIES.length}
-            >
-              <img
-                src={tech.icon}
-                alt={tech.name}
-                className="h-7 w-7 opacity-55 transition-opacity hover:opacity-100 sm:h-8 sm:w-8"
-                loading="lazy"
-                width={32}
-                height={32}
-              />
-              <span className="text-sm font-medium text-muted-foreground">{tech.name}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+      <ul className="grid grid-cols-2 border-l border-t border-border sm:grid-cols-5">
+        {TECHNOLOGIES.map((tech) => (
+          <li
+            key={tech.name}
+            className="group flex items-center gap-3 border-b border-r border-border px-4 py-3"
+          >
+            <img
+              src={tech.icon}
+              alt=""
+              className="h-5 w-5 opacity-60 brightness-0 invert transition duration-200 group-hover:opacity-100 group-hover:brightness-100 group-hover:invert-0"
+              loading="lazy"
+              width={20}
+              height={20}
+            />
+            <span className="font-mono text-sm lowercase text-muted-foreground transition-colors group-hover:text-foreground">
+              {tech.name}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 };

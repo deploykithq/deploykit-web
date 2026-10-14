@@ -1,37 +1,40 @@
 import { memo } from "react";
-import { Rocket, ArrowLeft, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface DocsHeaderPropsI {
+  sidebarOpen: boolean;
   onToggleSidebar: () => void;
 }
 
-export const DocsHeader = memo(({ onToggleSidebar }: DocsHeaderPropsI) => {
+export const DocsHeader = memo(({ sidebarOpen, onToggleSidebar }: DocsHeaderPropsI) => {
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 glass border-b border-border">
-      <div className="flex items-center justify-between px-4 sm:px-6 py-3">
-        <div className="flex items-center gap-3">
-          <Link to="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="h-4 w-4" />
-            <span className="text-sm hidden sm:inline">Back</span>
+    <header className="fixed top-0 left-0 right-0 z-50 h-[52px] border-b border-border bg-background">
+      <div className="flex h-full items-center justify-between px-4 font-mono sm:px-6">
+        <div className="flex min-w-0 items-center gap-4 text-sm">
+          <Link to="/" className="font-bold tracking-tight text-bright hover:text-primary" aria-label="DeployKit home">
+            deploykit<span className="text-primary">_</span>
           </Link>
-          <div className="h-5 w-px bg-border" />
-          <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-primary">
-              <Rocket className="h-3.5 w-3.5 text-primary-foreground" />
-            </div>
-            <span className="font-semibold text-bright text-sm">Docs</span>
-          </div>
+          <span aria-hidden className="text-dim">/</span>
+          <span className="text-muted-foreground">docs</span>
         </div>
 
-        <button
-          onClick={onToggleSidebar}
-          className="lg:hidden flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-foreground"
-        >
-          <BookOpen className="h-4 w-4" />
-        </button>
+        <div className="flex items-center gap-5 text-sm">
+          <Link to="/" className="hidden text-muted-foreground hover:text-primary sm:inline">
+            ← back
+          </Link>
+          <button
+            type="button"
+            onClick={onToggleSidebar}
+            className="text-muted-foreground hover:text-primary lg:hidden"
+            aria-label="Toggle docs navigation"
+            aria-expanded={sidebarOpen}
+            aria-controls="docs-sidebar"
+          >
+            {sidebarOpen ? "[x]" : "[≡] index"}
+          </button>
+        </div>
       </div>
-    </div>
+    </header>
   );
 });
 

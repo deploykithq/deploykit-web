@@ -17,7 +17,7 @@ export const DocsPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <DocsHeader onToggleSidebar={toggleSidebar} />
+      <DocsHeader sidebarOpen={sidebarOpen} onToggleSidebar={toggleSidebar} />
 
       <div className="flex pt-[52px]">
         <DocsSidebar
@@ -31,7 +31,7 @@ export const DocsPage = () => {
 
         {sidebarOpen && (
           <div
-            className="fixed inset-0 z-30 bg-background/60 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-30 bg-background/80 lg:hidden"
             onClick={closeSidebar}
           />
         )}

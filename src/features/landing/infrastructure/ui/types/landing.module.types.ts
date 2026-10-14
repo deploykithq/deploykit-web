@@ -1,40 +1,33 @@
-import type { LucideIcon } from "lucide-react";
-
 export interface FeatureI {
-  icon: LucideIcon;
   title: string;
   description: string;
-  /** Optional tag rendered as a small chip (e.g. "AES-256-GCM"). */
+  /** Optional tag rendered as a bracketed mono label (e.g. "[aes-256-gcm]"). */
   tag?: string;
-  /** When true the card spans two columns in the bento grid. */
-  wide?: boolean;
 }
 
 export interface PillarI {
   id: string;
-  /** Short kicker, e.g. "01 · Ship". */
+  /** Two-digit index, e.g. "01". */
   index: string;
   label: string;
   tagline: string;
-  icon: LucideIcon;
   features: FeatureI[];
 }
 
 export interface StatI {
-  icon: LucideIcon;
-  value: number;
-  suffix: string;
-  prefix?: string;
+  /** Row key, rendered like a column header in htop. */
   label: string;
-  decimals?: number;
+  value: string;
+  note: string;
 }
 
 export interface StepI {
-  icon: LucideIcon;
   step: string;
   title: string;
   description: string;
   command: string;
+  /** "output" renders the command as program output instead of a `$` prompt. */
+  kind?: "command" | "output";
 }
 
 export interface TechnologyI {
@@ -46,10 +39,14 @@ export interface TestimonialI {
   quote: string;
   author: string;
   role: string;
-  initials: string;
 }
 
 export interface NavLinkI {
   href: string;
   label: string;
+}
+
+export interface DeployLogLineI {
+  text: string;
+  tone: "dim" | "info" | "ok";
 }

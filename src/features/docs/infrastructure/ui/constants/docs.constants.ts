@@ -16,6 +16,12 @@ import {
   Webhook,
   ScrollText,
   TerminalSquare,
+  LayoutTemplate,
+  Clock,
+  Github,
+  Radio,
+  Gamepad2,
+  ArrowLeftRight,
 } from "lucide-react";
 import type { SidebarSectionI } from "@docs/infrastructure/ui/types/docs.module.types";
 
@@ -35,10 +41,15 @@ export const SIDEBAR_SECTIONS: SidebarSectionI[] = [
       { id: "databases", label: "Databases", icon: Database },
       { id: "domains", label: "Domains & SSL", icon: Shield },
       { id: "servers", label: "Servers", icon: Server },
+      { id: "templates", label: "Templates & Compose Stacks", icon: LayoutTemplate },
+      { id: "scheduled-tasks", label: "Scheduled Tasks", icon: Clock },
       { id: "preview-deployments", label: "Preview Deployments", icon: Eye },
+      { id: "github-app", label: "GitHub App", icon: Github },
       { id: "notifications", label: "Notifications", icon: Bell },
       { id: "users-rbac", label: "Users & RBAC", icon: Users },
       { id: "monitoring", label: "Monitoring", icon: Activity },
+      { id: "status-pages", label: "Status Pages", icon: Radio },
+      { id: "game-servers", label: "Game Servers", icon: Gamepad2 },
     ],
   },
   {
@@ -47,6 +58,7 @@ export const SIDEBAR_SECTIONS: SidebarSectionI[] = [
       { id: "cli", label: "CLI Reference", icon: TerminalSquare },
       { id: "api", label: "API Reference", icon: Terminal },
       { id: "config", label: "Configuration", icon: Settings },
+      { id: "export-import", label: "Export & Import", icon: ArrowLeftRight },
       { id: "webhooks", label: "Webhooks & CI/CD", icon: Webhook },
       { id: "audit-logs", label: "Audit Logs", icon: ScrollText },
     ],

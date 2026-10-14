@@ -1,9 +1,11 @@
-import { Rocket, Github } from "lucide-react";
-import { GITHUB_URL } from "@landing/infrastructure/ui/constants/landing.constants";
+import {
+  DEPLOYKIT_VERSION,
+  GITHUB_URL,
+} from "@landing/infrastructure/ui/constants/landing.constants";
 
 const COLUMNS = [
   {
-    title: "Product",
+    title: "product",
     links: [
       { label: "Features", href: "#features" },
       { label: "How it works", href: "#how-it-works" },
@@ -11,7 +13,7 @@ const COLUMNS = [
     ],
   },
   {
-    title: "Docs",
+    title: "docs",
     links: [
       { label: "Installation", href: "/docs" },
       { label: "CLI Reference", href: "/docs" },
@@ -19,7 +21,7 @@ const COLUMNS = [
     ],
   },
   {
-    title: "Project",
+    title: "project",
     links: [
       { label: "GitHub", href: GITHUB_URL },
       { label: "Contributing", href: "https://github.com/deploykithq/deploykit?tab=contributing-ov-file" },
@@ -30,57 +32,52 @@ const COLUMNS = [
 
 export const Footer = () => {
   return (
-    <footer className="border-t border-border/60 py-12 sm:py-16">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
-          <div>
-            <div className="flex items-center gap-2.5">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-primary">
-                <Rocket className="h-4 w-4 text-primary-foreground" />
-              </span>
-              <span className="font-display text-lg font-bold text-bright">DeployKit</span>
-            </div>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              The open-source, self-hosted PaaS. Deploy apps and databases on your own
-              infrastructure — no vendor lock-in.
-            </p>
-            <a
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-2 rounded-lg surface-card px-3.5 py-2 text-sm font-medium text-foreground transition-colors hover:border-glow"
-            >
-              <Github className="h-4 w-4" />
-              Star on GitHub
-            </a>
-          </div>
-
-          {COLUMNS.map((col) => (
-            <div key={col.title}>
-              <h4 className="font-display text-sm font-semibold text-bright">{col.title}</h4>
-              <ul className="mt-4 space-y-2.5">
-                {col.links.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+    <footer className="font-mono">
+      <div className="container mx-auto grid gap-8 px-4 py-12 sm:grid-cols-[1.4fr_1fr_1fr_1fr] sm:px-6">
+        <div>
+          <p className="text-base font-bold text-bright">
+            deploykit<span className="text-primary">_</span>
+          </p>
+          <p className="mt-3 max-w-xs font-sans text-sm leading-relaxed text-muted-foreground">
+            The open-source, self-hosted PaaS. Deploy apps and databases on your own
+            infrastructure — no vendor lock-in.
+          </p>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-border/60 pt-6 sm:flex-row">
-          <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} DeployKit. Open source under the MIT license.
+        {COLUMNS.map((col) => (
+          <nav key={col.title} aria-label={col.title}>
+            <h4 className="text-xs uppercase tracking-widest text-dim">{col.title}/</h4>
+            <ul className="mt-3 space-y-2 text-sm">
+              {col.links.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    className="lowercase text-muted-foreground transition-colors hover:text-primary"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))}
+      </div>
+
+      {/* tmux-style status line */}
+      <div className="border-t border-border bg-surface-1 text-xs">
+        <div className="container mx-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 py-2 sm:px-6">
+          <p className="flex items-center gap-3">
+            <span className="bg-primary px-2 py-0.5 font-semibold text-primary-foreground">deploykit</span>
+            <span className="text-muted-foreground">0:landing*</span>
           </p>
-          <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse-glow" />
-            All systems operational
+          <p className="flex flex-wrap items-center gap-x-3 text-dim">
+            <span className="text-success">● all systems operational</span>
+            {[DEPLOYKIT_VERSION, "MIT", `© ${new Date().getFullYear()}`].map((item) => (
+              <span key={item}>
+                <span aria-hidden className="mr-3">│</span>
+                {item}
+              </span>
+            ))}
           </p>
         </div>
       </div>

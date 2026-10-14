@@ -1,34 +1,49 @@
-import { memo, useState, useCallback } from "react";
-import { Copy, Check } from "lucide-react";
+import { memo, useState, useCallback, useEffect, useMemo, useRef } from "react";
+
+/** Strips blank edge lines and the common indentation template literals carry in. */
+const dedent = (code: string) => {
+  const lines = code.replace(/^\s*\n|\n\s*$/g, "").split("\n");
+  const indent = Math.min(
+    ...lines.filter((l) => l.trim()).map((l) => l.match(/^ */)![0].length),
+  );
+  return lines.map((l) => l.slice(indent)).join("\n");
+};
 
 interface CodeBlockPropsI {
   code: string;
   language?: string;
 }
 
-export const CodeBlock = memo(({ code, language = "bash" }: CodeBlockPropsI) => {
+export const CodeBlock = memo(({ code: raw, language = "bash" }: CodeBlockPropsI) => {
+  const code = useMemo(() => dedent(raw), [raw]);
   const [copied, setCopied] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => () => clearTimeout(timer.current), []);
 
   const handleCopy = useCallback(() => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    navigator.clipboard?.writeText(code).then(() => {
+      setCopied(true);
+      clearTimeout(timer.current);
+      timer.current = setTimeout(() => setCopied(false), 2000);
+    });
   }, [code]);
 
   return (
-    <div className="group relative rounded-xl border border-border bg-secondary/50 overflow-hidden">
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border">
-        <span className="text-xs font-mono text-dim">{language}</span>
+    <div className="border border-border bg-surface-1 font-mono">
+      <div className="flex items-center justify-between border-b border-border px-4 py-2 text-[11px] uppercase tracking-widest">
+        <span className="text-muted-foreground">{language}</span>
         <button
+          type="button"
           onClick={handleCopy}
-          className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          aria-label={`Copy ${language} snippet`}
+          className={copied ? "text-success" : "text-muted-foreground hover:text-primary"}
         >
-          {copied ? <Check className="h-3 w-3 text-green-400" /> : <Copy className="h-3 w-3" />}
-          {copied ? "Copied" : "Copy"}
+          <span aria-live="polite">{copied ? "✓ copied" : "[ copy ]"}</span>
         </button>
       </div>
-      <pre className="p-4 overflow-x-auto">
-        <code className="text-sm font-mono text-foreground leading-relaxed">{code}</code>
+      <pre className="overflow-x-auto bg-background p-4">
+        <code className="text-[13px] leading-relaxed text-bright">{code}</code>
       </pre>
     </div>
   );

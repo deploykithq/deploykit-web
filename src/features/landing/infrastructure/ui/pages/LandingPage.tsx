@@ -15,7 +15,7 @@ import {
 export const LandingPage = () => {
   return (
     <LazyMotion features={domAnimation} strict>
-      <div className="grain min-h-screen overflow-x-hidden">
+      <div className="min-h-screen overflow-x-hidden">
         <Navbar />
         <main>
           <HeroSection />
@@ -24,9 +24,7 @@ export const LandingPage = () => {
           <FeaturesSection />
           <HowItWorksSection />
           <DemoSection />
-          <section className="relative py-20 sm:py-28">
-            <TestimonialsSection />
-          </section>
+          <TestimonialsSection />
           <CTASection />
         </main>
         <Footer />

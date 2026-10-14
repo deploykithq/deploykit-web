@@ -11,3 +11,5 @@ export { TechSection } from "./TechSection";
 export { TestimonialsSection } from "./TestimonialsSection";
 export { CTASection } from "./CTASection";
 export { Footer } from "./Footer";
+export { SectionHeader } from "./SectionHeader";
+export { InstallCommand } from "./InstallCommand";

@@ -1,63 +1,38 @@
-import { m } from "framer-motion";
 import { STEPS } from "@landing/infrastructure/ui/constants/landing.constants";
+import { SectionHeader } from "./SectionHeader";
 
 export const HowItWorksSection = () => {
   return (
-    <section id="how-it-works" className="relative py-20 sm:py-28">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <m.span
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary"
-          >
-            Workflow
-          </m.span>
-          <m.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mt-3 font-display text-3xl font-bold text-bright sm:text-4xl md:text-5xl"
-          >
-            Four steps to <span className="text-gradient">production</span>
-          </m.h2>
+    <section id="how-it-works" className="container mx-auto scroll-mt-14 px-4 pt-20 sm:px-6 sm:pt-32">
+      <SectionHeader index="04" label="workflow" meta={`${STEPS.length} steps`} title="Four steps to production" />
+
+      <div className="border border-border bg-surface-1 font-mono">
+        <div className="flex items-center justify-between border-b border-border px-4 py-2 text-[11px] uppercase tracking-widest text-muted-foreground">
+          <span>tty2 — ssh you@your-server</span>
+          <span className="hidden text-dim sm:inline">bash</span>
         </div>
 
-        <div className="relative mx-auto mt-14 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {/* animated connector line (desktop) */}
-          <div className="pointer-events-none absolute top-7 left-[12%] right-[12%] hidden h-px lg:block">
-            <div className="h-full w-full bg-[linear-gradient(90deg,transparent,hsl(var(--primary)/0.5),transparent)] bg-[length:200%_100%] animate-pipeline-flow" />
-          </div>
-
-          {STEPS.map((step, index) => (
-            <m.div
-              key={step.step}
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: index * 0.12 }}
-              className="group surface-card relative rounded-2xl p-5"
-            >
-              <div className="flex items-center justify-between">
-                <div className="relative flex h-14 w-14 items-center justify-center rounded-xl surface-raised text-primary transition-colors group-hover:border-glow">
-                  <step.icon className="h-6 w-6" />
-                </div>
-                <span className="font-mono text-3xl font-bold text-foreground/10">
-                  {step.step}
-                </span>
-              </div>
-
-              <h3 className="mt-4 font-display text-base font-semibold text-bright">
-                {step.title}
-              </h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                {step.description}
+        <ol className="overflow-x-auto bg-background px-4 py-5 text-[13px] leading-6 sm:px-6 sm:text-sm">
+          {STEPS.map((step, i) => (
+            <li key={step.step} className={i > 0 ? "mt-6" : undefined}>
+              <p className="text-dim">
+                # <span className="text-muted-foreground">{step.step}</span> · {step.title}
               </p>
-            </m.div>
+              <p className="text-dim"># {step.description}</p>
+              {step.kind === "output" ? (
+                <p className="whitespace-pre text-success">● live  {step.command}</p>
+              ) : (
+                <p className="whitespace-pre text-bright">
+                  <span className="text-primary">$</span> {step.command}
+                </p>
+              )}
+            </li>
           ))}
-        </div>
+          <li className="mt-6" aria-hidden>
+            <span className="text-primary">$</span>{" "}
+            <span className="inline-block h-4 w-2 translate-y-0.5 bg-primary animate-caret-blink" />
+          </li>
+        </ol>
       </div>
     </section>
   );

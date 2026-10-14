@@ -1,79 +1,43 @@
-import { m } from "framer-motion";
 import { PILLARS } from "@landing/infrastructure/ui/constants/landing.constants";
 import { FeatureCard } from "./FeatureCard";
+import { SectionHeader } from "./SectionHeader";
+
+const FEATURE_COUNT = PILLARS.reduce((n, p) => n + p.features.length, 0);
 
 export const FeaturesSection = () => {
   return (
-    <section id="features" className="relative py-20 sm:py-28">
-      <div className="container mx-auto px-4 sm:px-6">
-        {/* heading */}
-        <div className="mx-auto max-w-2xl text-center">
-          <m.span
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary"
-          >
-            Capabilities
-          </m.span>
-          <m.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mt-3 font-display text-3xl font-bold text-bright sm:text-4xl md:text-5xl"
-          >
-            Everything a service needs,{" "}
-            <span className="text-gradient">from ship to govern</span>
-          </m.h2>
-          <m.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground sm:text-base"
-          >
-            Sixteen built-in capabilities across four pillars — the whole lifecycle of a
-            deployment, managed from one dashboard.
-          </m.p>
-        </div>
+    <section id="features" className="container mx-auto scroll-mt-14 px-4 pt-20 sm:px-6 sm:pt-32">
+      <SectionHeader
+        index="03"
+        label="features"
+        meta={`${FEATURE_COUNT} entries`}
+        title="Everything a service needs, from ship to govern"
+      >
+        Sixteen built-in capabilities across four pillars — the whole lifecycle of a
+        deployment, managed from one dashboard.
+      </SectionHeader>
 
-        {/* pillars */}
-        <div className="mt-14 space-y-12 sm:space-y-16">
-          {PILLARS.map((pillar) => (
-            <div key={pillar.id}>
-              {/* pillar header */}
-              <m.div
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.5 }}
-                className="mb-5 flex items-center gap-4"
-              >
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl surface-raised text-primary">
-                  <pillar.icon className="h-5 w-5" />
-                </div>
-                <div className="min-w-0">
-                  <div className="flex items-baseline gap-2.5">
-                    <span className="font-mono text-xs text-dim">{pillar.index}</span>
-                    <h3 className="font-display text-xl font-semibold text-bright sm:text-2xl">
-                      {pillar.label}
-                    </h3>
-                  </div>
-                  <p className="truncate text-sm text-muted-foreground">{pillar.tagline}</p>
-                </div>
-                <div className="ml-auto hidden h-px max-w-[40%] flex-1 bg-gradient-to-r from-border to-transparent sm:block" />
-              </m.div>
-
-              {/* bento grid for this pillar */}
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {pillar.features.map((feature, i) => (
-                  <FeatureCard key={feature.title} feature={feature} index={i} />
-                ))}
-              </div>
+      <div className="border-y border-border">
+        {PILLARS.map((pillar) => (
+          <div
+            key={pillar.id}
+            className="grid gap-4 border-t border-border py-6 first:border-t-0 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-10 lg:py-8"
+          >
+            <div>
+              <h3 className="font-mono text-lg font-bold uppercase tracking-wider text-bright">
+                <span className="mr-3 text-primary">{pillar.index}</span>
+                {pillar.label}
+              </h3>
+              <p className="mt-2 max-w-xs text-sm text-muted-foreground">{pillar.tagline}</p>
             </div>
-          ))}
-        </div>
+
+            <ul>
+              {pillar.features.map((feature) => (
+                <FeatureCard key={feature.title} feature={feature} />
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </section>
   );

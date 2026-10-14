@@ -1,5 +1,5 @@
 import { memo, useCallback } from "react";
-import { Search } from "lucide-react";
+import { SIDEBAR_SECTIONS } from "@docs/infrastructure/ui/constants/docs.constants";
 import type { SidebarSectionI } from "@docs/infrastructure/ui/types/docs.module.types";
 
 interface DocsSidebarPropsI {
@@ -10,6 +10,14 @@ interface DocsSidebarPropsI {
   onSearchChange: (query: string) => void;
   onNavigate: (id: string) => void;
 }
+
+/** Stable man-page style indices ("1", "1.2"), unaffected by search filtering. */
+const SECTION_INDEX = new Map<string, string>();
+const ITEM_INDEX = new Map<string, string>();
+SIDEBAR_SECTIONS.forEach((section, s) => {
+  SECTION_INDEX.set(section.title, `${s + 1}`);
+  section.items.forEach((item, i) => ITEM_INDEX.set(item.id, `${s + 1}.${i + 1}`));
+});
 
 export const DocsSidebar = memo(({
   activeSection,
@@ -26,47 +34,57 @@ export const DocsSidebar = memo(({
 
   return (
     <aside
-      className={`fixed lg:sticky top-[52px] left-0 z-40 h-[calc(100vh-52px)] w-64 border-r border-border bg-background overflow-y-auto transition-transform lg:translate-x-0 ${
-        sidebarOpen ? "translate-x-0" : "-translate-x-full"
+      id="docs-sidebar"
+      className={`fixed lg:sticky top-[52px] left-0 z-40 h-[calc(100vh-52px)] w-72 shrink-0 overflow-y-auto border-r border-border bg-background font-mono transition-transform lg:translate-x-0 ${
+        sidebarOpen ? "translate-x-0" : "-translate-x-full max-lg:invisible"
       }`}
     >
       <div className="p-4">
-        <div className="relative mb-4">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-dim" />
+        <label className="mb-6 flex items-center gap-2 border border-border bg-surface-1 px-3 py-2 text-sm focus-within:border-primary">
+          <span aria-hidden className="text-primary">/</span>
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="search"
+            aria-label="Search docs"
             value={searchQuery}
             onChange={handleSearchChange}
-            className="w-full rounded-lg border border-border bg-secondary pl-9 pr-3 py-2 text-sm text-foreground placeholder:text-dim focus:outline-none focus:ring-1 focus:ring-primary"
+            className="w-full bg-transparent text-foreground placeholder:text-dim focus:outline-none"
           />
-        </div>
+        </label>
+
+        {filteredSections.length === 0 && (
+          <p className="px-2 text-sm text-dim">no matches.</p>
+        )}
 
         {filteredSections.map((section) => (
-          <div key={section.title} className="mb-5">
-            <p className="mb-2 px-2 text-[11px] font-semibold uppercase tracking-wider text-dim">
-              {section.title}
+          <div key={section.title} className="mb-6">
+            <p className="mb-2 px-2 text-xs uppercase tracking-widest text-dim">
+              {SECTION_INDEX.get(section.title)}. {section.title}
             </p>
-            <div className="space-y-0.5">
+            <ul>
               {section.items.map((item) => {
-                const Icon = item.icon;
                 const isActive = activeSection === item.id;
                 return (
-                  <button
-                    key={item.id}
-                    onClick={() => onNavigate(item.id)}
-                    className={`flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition-colors ${
-                      isActive
-                        ? "bg-primary/10 text-primary font-medium"
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-                    }`}
-                  >
-                    <Icon className="h-4 w-4 shrink-0" />
-                    {item.label}
-                  </button>
+                  <li key={item.id}>
+                    <button
+                      type="button"
+                      onClick={() => onNavigate(item.id)}
+                      aria-current={isActive ? "page" : undefined}
+                      className={`flex w-full items-baseline gap-3 border-l-2 px-2 py-1.5 text-left text-sm transition-colors ${
+                        isActive
+                          ? "border-primary bg-surface-1 text-primary"
+                          : "border-transparent text-muted-foreground hover:border-border hover:text-foreground"
+                      }`}
+                    >
+                      <span className={`w-8 shrink-0 text-xs ${isActive ? "text-primary" : "text-dim"}`}>
+                        {ITEM_INDEX.get(item.id)}
+                      </span>
+                      <span className="lowercase">{item.label}</span>
+                    </button>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
           </div>
         ))}
       </div>

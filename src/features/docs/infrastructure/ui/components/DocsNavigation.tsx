@@ -1,5 +1,4 @@
 import { memo, useCallback } from "react";
-import { ArrowLeft, ChevronRight } from "lucide-react";
 import type { SidebarItemI } from "@docs/infrastructure/ui/types/docs.module.types";
 
 interface DocsNavigationPropsI {
@@ -18,30 +17,32 @@ export const DocsNavigation = memo(({ prevItem, nextItem, onNavigate }: DocsNavi
   }, [nextItem, onNavigate]);
 
   return (
-    <div className="mt-16 flex items-center justify-between border-t border-border pt-6">
+    <nav className="mt-16 grid grid-cols-2 border border-border font-mono text-sm" aria-label="Docs pagination">
       {prevItem ? (
         <button
+          type="button"
           onClick={handlePrev}
-          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="flex flex-col items-start gap-1 border-r border-border p-4 text-left text-muted-foreground transition-colors hover:bg-surface-1 hover:text-primary"
         >
-          <ArrowLeft className="h-4 w-4" />
-          {prevItem.label}
+          <span className="text-xs uppercase tracking-widest text-dim">← prev</span>
+          <span className="lowercase">{prevItem.label}</span>
         </button>
       ) : (
-        <div />
+        <div className="border-r border-border" />
       )}
       {nextItem ? (
         <button
+          type="button"
           onClick={handleNext}
-          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="flex flex-col items-end gap-1 p-4 text-right text-muted-foreground transition-colors hover:bg-surface-1 hover:text-primary"
         >
-          {nextItem.label}
-          <ChevronRight className="h-4 w-4" />
+          <span className="text-xs uppercase tracking-widest text-dim">next →</span>
+          <span className="lowercase">{nextItem.label}</span>
         </button>
       ) : (
         <div />
       )}
-    </div>
+    </nav>
   );
 });
 
