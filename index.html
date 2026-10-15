@@ -4,11 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0b0b0a" />
-    <title>DeployKit — Deploy your apps on your own server</title>
-    <meta name="description" content="Open source, self-hosted PaaS platform to deploy applications, databases and services on your infrastructure. No vendor lock-in." />
     <meta name="author" content="DeployKit" />
-    <meta name="keywords" content="PaaS, deployment, self-hosted, open source, Docker, Nixpacks, deploy, server, applications" />
-    <link rel="canonical" href="https://deploykit.es" />
 
     <link rel="icon" href="/favicon.png" type="image/png" />
 
@@ -30,33 +26,11 @@
     <!-- Preconnect to devicons CDN -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 
-    <meta property="og:title" content="DeployKit — Deploy your apps on your own server" />
-    <meta property="og:description" content="Open source, self-hosted PaaS platform to deploy applications, databases and services on your infrastructure." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="/og-image.png" />
-    <meta property="og:url" content="https://deploykit.es" />
-    <meta property="og:site_name" content="DeployKit" />
+    <link rel="alternate" type="application/rss+xml" title="DeployKit Blog" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Blog de DeployKit" href="/es/rss.xml" />
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="DeployKit — Deploy your apps on your own server" />
-    <meta name="twitter:description" content="Open source, self-hosted PaaS platform. No vendor lock-in, full control." />
-    <meta name="twitter:image" content="/og-image.png" />
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "DeployKit",
-      "applicationCategory": "DeveloperApplication",
-      "operatingSystem": "Linux",
-      "description": "Open source, self-hosted PaaS platform to deploy applications on your own infrastructure.",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      }
-    }
-    </script>
+    <!-- Page-specific title, meta, canonical, hreflang and JSON-LD (prerender / useSeo) -->
+    <!--app-head-->
 
     <script defer src="https://metrics.ridel.dev/script.js" data-website-id="0464e847-010a-4686-889d-47bd9441173d"></script>
 
@@ -69,6 +43,6 @@
 
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/entry-client.tsx"></script>
   </body>
 </html>

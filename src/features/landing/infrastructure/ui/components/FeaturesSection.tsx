@@ -1,24 +1,27 @@
-import { PILLARS } from "@landing/infrastructure/ui/constants/landing.constants";
+import React from "react";
+
 import { FeatureCard } from "./FeatureCard";
 import { SectionHeader } from "./SectionHeader";
 
-const FEATURE_COUNT = PILLARS.reduce((n, p) => n + p.features.length, 0);
+import { useLandingCopy } from "@landing/infrastructure/ui/hooks/useLandingCopy";
 
-export const FeaturesSection = () => {
+export const FeaturesSection: React.FC = () => {
+  const { features } = useLandingCopy();
+  const featureCount = features.pillars.reduce((n, p) => n + p.features.length, 0);
+
   return (
     <section id="features" className="container mx-auto scroll-mt-14 px-4 pt-20 sm:px-6 sm:pt-32">
       <SectionHeader
         index="03"
-        label="features"
-        meta={`${FEATURE_COUNT} entries`}
-        title="Everything a service needs, from ship to govern"
+        label={features.label}
+        meta={features.meta(featureCount)}
+        title={features.title}
       >
-        Sixteen built-in capabilities across four pillars — the whole lifecycle of a
-        deployment, managed from one dashboard.
+        {features.intro}
       </SectionHeader>
 
       <div className="border-y border-border">
-        {PILLARS.map((pillar) => (
+        {features.pillars.map((pillar) => (
           <div
             key={pillar.id}
             className="grid gap-4 border-t border-border py-6 first:border-t-0 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-10 lg:py-8"

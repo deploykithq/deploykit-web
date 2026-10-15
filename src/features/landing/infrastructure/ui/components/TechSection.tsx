@@ -1,10 +1,17 @@
-import { TECHNOLOGIES } from "@landing/infrastructure/ui/constants/landing.constants";
+import React from "react";
+
 import { SectionHeader } from "./SectionHeader";
 
-export const TechSection = () => {
+import { useLandingCopy } from "@landing/infrastructure/ui/hooks/useLandingCopy";
+
+import { TECHNOLOGIES } from "@landing/infrastructure/ui/constants/landing.constants";
+
+export const TechSection: React.FC = () => {
+  const { tech } = useLandingCopy();
+
   return (
     <section className="container mx-auto px-4 pt-16 sm:px-6 sm:pt-24">
-      <SectionHeader index="01" label="builds anything nixpacks detects" meta={`${TECHNOLOGIES.length} runtimes`} />
+      <SectionHeader index="01" label={tech.label} meta={tech.meta(TECHNOLOGIES.length)} />
 
       <ul className="grid grid-cols-2 border-l border-t border-border sm:grid-cols-5">
         {TECHNOLOGIES.map((tech) => (

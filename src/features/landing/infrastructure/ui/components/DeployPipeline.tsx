@@ -1,12 +1,11 @@
+import React, { memo, useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
-import { memo, useEffect, useRef, useState } from "react";
 
-import {
-  DEPLOY_LOG,
-  PIPELINE_STAGES,
-} from "@landing/infrastructure/ui/constants/landing.constants";
+import { useLandingCopy } from "@landing/infrastructure/ui/hooks/useLandingCopy";
 
-/** Which pipeline stage each streamed log line belongs to. */
+import { DEPLOY_LOG, PIPELINE_STAGES } from "@landing/infrastructure/ui/constants/landing.constants";
+
+/** A qué etapa del pipeline pertenece cada línea de log emitida. */
 const STAGE_FOR_LINE = [1, 1, 2, 2, 3, 3];
 
 const TONE_CLASS: Record<string, string> = {
@@ -16,10 +15,11 @@ const TONE_CLASS: Record<string, string> = {
 };
 
 /**
- * Signature element: a raw tty streaming a deploy git push → build → deploy → live.
- * The session loops; with reduced-motion it renders the finished state.
+ * Elemento distintivo: una tty en bruto que emite un deploy git push → build → deploy → live.
+ * La sesión se repite en bucle; con reduced-motion muestra el estado final.
  */
-export const DeployPipeline = memo(() => {
+export const DeployPipeline: React.FC = memo(() => {
+  const { hero } = useLandingCopy();
   const reduce = useReducedMotion();
   const [revealed, setRevealed] = useState(reduce ? DEPLOY_LOG.length : 0);
   const timer = useRef<ReturnType<typeof setTimeout>>();
@@ -46,18 +46,18 @@ export const DeployPipeline = memo(() => {
   const allDone = revealed === DEPLOY_LOG.length;
 
   return (
-    <div className="border border-border bg-surface-1 font-mono" aria-label="Example deploy session">
-      {/* title bar */}
+    <div className="border border-border bg-surface-1 font-mono" aria-label={hero.pipelineLabel}>
+      {/* barra de título */}
       <div className="flex items-center justify-between border-b border-border px-4 py-2 text-[11px] uppercase tracking-widest">
         <span className="text-muted-foreground">tty1 — deploy</span>
         {allDone ? (
-          <span className="text-success">● healthy</span>
+          <span className="text-success">{hero.healthy}</span>
         ) : (
-          <span className="text-primary">↻ deploying</span>
+          <span className="text-primary">{hero.deploying}</span>
         )}
       </div>
 
-      {/* stage status line */}
+      {/* línea de estado de la etapa */}
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1 border-b border-border px-4 py-2.5 text-xs">
         {PIPELINE_STAGES.map((stage, i) => {
           const done = i < activeStage || (allDone && i === activeStage);
@@ -79,7 +79,7 @@ export const DeployPipeline = memo(() => {
         })}
       </div>
 
-      {/* streaming log */}
+      {/* log en streaming */}
       <div className="bg-background px-4 py-4 text-xs leading-6 sm:text-[13px]">
         <p className="text-bright">
           <span className="text-primary">$</span> git push origin main

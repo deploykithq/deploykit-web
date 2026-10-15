@@ -2,13 +2,11 @@ import {
   Rocket,
   Terminal,
   Zap,
-  Globe,
   Database,
   Shield,
   Layers,
   Server,
   Settings,
-  GitBranch,
   Bell,
   Users,
   Activity,
@@ -23,44 +21,61 @@ import {
   Gamepad2,
   ArrowLeftRight,
 } from "lucide-react";
-import type { SidebarSectionI } from "@docs/infrastructure/ui/types/docs.module.types";
 
-export const SIDEBAR_SECTIONS: SidebarSectionI[] = [
+import type { DictionaryT } from "@lib/i18n/dictionaries/en";
+import type { DocsSectionIdT, SidebarSectionI } from "@docs/infrastructure/ui/interfaces/DocsI";
+
+/** La introducción se sirve en `/docs`, así que no tiene una URL `/docs/<id>` propia. */
+export const DEFAULT_SECTION: DocsSectionIdT = "getting-started";
+
+const SIDEBAR_LAYOUT = [
   {
-    title: "Getting Started",
+    group: "gettingStarted",
     items: [
-      { id: "getting-started", label: "Introduction", icon: Rocket },
-      { id: "installation", label: "Installation", icon: Terminal },
-      { id: "quickstart", label: "Quickstart", icon: Zap },
+      { id: "getting-started", icon: Rocket },
+      { id: "installation", icon: Terminal },
+      { id: "quickstart", icon: Zap },
     ],
   },
   {
-    title: "Guides",
+    group: "guides",
     items: [
-      { id: "applications", label: "Applications", icon: Layers },
-      { id: "databases", label: "Databases", icon: Database },
-      { id: "domains", label: "Domains & SSL", icon: Shield },
-      { id: "servers", label: "Servers", icon: Server },
-      { id: "templates", label: "Templates & Compose Stacks", icon: LayoutTemplate },
-      { id: "scheduled-tasks", label: "Scheduled Tasks", icon: Clock },
-      { id: "preview-deployments", label: "Preview Deployments", icon: Eye },
-      { id: "github-app", label: "GitHub App", icon: Github },
-      { id: "notifications", label: "Notifications", icon: Bell },
-      { id: "users-rbac", label: "Users & RBAC", icon: Users },
-      { id: "monitoring", label: "Monitoring", icon: Activity },
-      { id: "status-pages", label: "Status Pages", icon: Radio },
-      { id: "game-servers", label: "Game Servers", icon: Gamepad2 },
+      { id: "applications", icon: Layers },
+      { id: "databases", icon: Database },
+      { id: "domains", icon: Shield },
+      { id: "servers", icon: Server },
+      { id: "templates", icon: LayoutTemplate },
+      { id: "scheduled-tasks", icon: Clock },
+      { id: "preview-deployments", icon: Eye },
+      { id: "github-app", icon: Github },
+      { id: "notifications", icon: Bell },
+      { id: "users-rbac", icon: Users },
+      { id: "monitoring", icon: Activity },
+      { id: "status-pages", icon: Radio },
+      { id: "game-servers", icon: Gamepad2 },
     ],
   },
   {
-    title: "Reference",
+    group: "reference",
     items: [
-      { id: "cli", label: "CLI Reference", icon: TerminalSquare },
-      { id: "api", label: "API Reference", icon: Terminal },
-      { id: "config", label: "Configuration", icon: Settings },
-      { id: "export-import", label: "Export & Import", icon: ArrowLeftRight },
-      { id: "webhooks", label: "Webhooks & CI/CD", icon: Webhook },
-      { id: "audit-logs", label: "Audit Logs", icon: ScrollText },
+      { id: "cli", icon: TerminalSquare },
+      { id: "api", icon: Terminal },
+      { id: "config", icon: Settings },
+      { id: "export-import", icon: ArrowLeftRight },
+      { id: "webhooks", icon: Webhook },
+      { id: "audit-logs", icon: ScrollText },
     ],
   },
-];
+] as const;
+
+export const DOCS_SECTION_IDS: DocsSectionIdT[] = SIDEBAR_LAYOUT.flatMap((s) => s.items.map((i) => i.id));
+
+export const getSidebarSections = (t: DictionaryT): SidebarSectionI[] =>
+  SIDEBAR_LAYOUT.map((section) => ({
+    title: t.docs.groups[section.group],
+    items: section.items.map((item) => ({
+      id: item.id,
+      label: t.docs.sections[item.id],
+      icon: item.icon,
+    })),
+  }));

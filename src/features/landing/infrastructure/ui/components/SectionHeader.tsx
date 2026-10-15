@@ -1,18 +1,19 @@
-import { memo } from "react";
+import React, { memo } from "react";
+
 import type { ReactNode } from "react";
 
 interface SectionHeaderPropsI {
   index: string;
   label: string;
-  /** Omit for a bare rule (compact strips like the runtimes list). */
+  /** Omitir para una regla sin título (franjas compactas como la lista de runtimes). */
   title?: ReactNode;
-  /** Right-aligned metadata on the rule, e.g. "16 entries". */
+  /** Metadatos alineados a la derecha en la regla, p. ej. "16 entries". */
   meta?: string;
   children?: ReactNode;
 }
 
-/** `[02] features ────────── meta` rule followed by a mono heading. */
-export const SectionHeader = memo(({ index, label, title, meta, children }: SectionHeaderPropsI) => {
+/** Regla `[02] features ────────── meta` seguida de un título monoespaciado. */
+export const SectionHeader: React.FC<SectionHeaderPropsI> = memo(({ index, label, title, meta, children }: SectionHeaderPropsI) => {
   return (
     <header className={title ? "mb-10 sm:mb-14" : "mb-6"}>
       <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest">

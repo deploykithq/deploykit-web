@@ -1,25 +1,48 @@
-import { lazy, Suspense } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { LandingPage } from "@landing/infrastructure/ui/pages/LandingPage";
+import { Suspense, useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 
-const DocsPage = lazy(() =>
-  import("@docs/infrastructure/ui/pages/DocsPage").then((m) => ({
-    default: m.DocsPage,
-  })),
-);
+import { ROUTES } from "@lib/router/routes";
 
-const NotFound = lazy(() => import("./pages/NotFound"));
+import type { ComponentType } from "react";
+import type { PageKeyT } from "@lib/router/routes";
 
-const App = () => (
-  <BrowserRouter>
-    <Suspense fallback={<div className="min-h-screen bg-background" />}>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/docs" element={<DocsPage />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Suspense>
-  </BrowserRouter>
-);
+export type PagesT = Record<PageKeyT, ComponentType>;
+
+interface AppPropsI {
+  /** Componentes lazy en el navegador, eager durante el prerender. */
+  pages: PagesT;
+}
+
+/** Las navegaciones del router empiezan arriba, o en el `#anchor` al que apuntan. */
+const ScrollManager = () => {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    const target = hash ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
+    if (target) target.scrollIntoView();
+    else window.scrollTo({ top: 0 });
+  }, [pathname, hash]);
+
+  return null;
+};
+
+const App = ({ pages }: AppPropsI) => {
+  const NotFound = pages.notFound;
+
+  return (
+    <>
+      <ScrollManager />
+      <Suspense fallback={<div className="min-h-screen bg-background" />}>
+        <Routes>
+          {ROUTES.map(({ path, page }) => {
+            const Page = pages[page];
+            return <Route key={path} path={path} element={<Page />} />;
+          })}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </>
+  );
+};
 
 export default App;

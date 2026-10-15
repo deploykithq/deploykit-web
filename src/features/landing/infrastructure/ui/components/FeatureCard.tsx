@@ -1,13 +1,13 @@
-import { memo } from "react";
+import React, { memo } from "react";
 
-import type { FeatureI } from "@landing/infrastructure/ui/types/landing.module.types";
+import type { FeatureI } from "@landing/infrastructure/ui/interfaces/LandingI";
 
 interface FeatureCardPropsI {
   feature: FeatureI;
 }
 
-/** A single man-page style row: name, description, optional [tag]. */
-export const FeatureCard = memo(({ feature }: FeatureCardPropsI) => {
+/** Una fila estilo man-page: nombre, descripción y [tag] opcional. */
+export const FeatureCard: React.FC<FeatureCardPropsI> = memo(({ feature }: FeatureCardPropsI) => {
   return (
     <li className="group grid gap-x-6 gap-y-1 border-t border-border py-4 first:border-t-0 md:grid-cols-[13rem_minmax(0,1fr)_auto] md:items-baseline">
       <h4 className="font-mono text-sm font-semibold text-bright">

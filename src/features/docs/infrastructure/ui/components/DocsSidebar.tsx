@@ -1,32 +1,42 @@
-import { memo, useCallback } from "react";
-import { SIDEBAR_SECTIONS } from "@docs/infrastructure/ui/constants/docs.constants";
-import type { SidebarSectionI } from "@docs/infrastructure/ui/types/docs.module.types";
+import React, { memo, useCallback, useMemo } from "react";
+import { Link } from "react-router-dom";
+
+import { useT } from "@lib/i18n/useLocale";
+
+import type { SidebarSectionI } from "@docs/infrastructure/ui/interfaces/DocsI";
 
 interface DocsSidebarPropsI {
   activeSection: string;
   sidebarOpen: boolean;
   searchQuery: string;
+  /** Secciones sin filtrar, usadas para índices estables estilo man-page ("1", "1.2"). */
+  sections: SidebarSectionI[];
   filteredSections: SidebarSectionI[];
   onSearchChange: (query: string) => void;
-  onNavigate: (id: string) => void;
+  hrefFor: (id: string) => string;
 }
 
-/** Stable man-page style indices ("1", "1.2"), unaffected by search filtering. */
-const SECTION_INDEX = new Map<string, string>();
-const ITEM_INDEX = new Map<string, string>();
-SIDEBAR_SECTIONS.forEach((section, s) => {
-  SECTION_INDEX.set(section.title, `${s + 1}`);
-  section.items.forEach((item, i) => ITEM_INDEX.set(item.id, `${s + 1}.${i + 1}`));
-});
-
-export const DocsSidebar = memo(({
+export const DocsSidebar: React.FC<DocsSidebarPropsI> = memo(({
   activeSection,
   sidebarOpen,
   searchQuery,
+  sections,
   filteredSections,
   onSearchChange,
-  onNavigate,
+  hrefFor,
 }: DocsSidebarPropsI) => {
+  const t = useT();
+
+  const { sectionIndex, itemIndex } = useMemo(() => {
+    const sectionIndex = new Map<string, string>();
+    const itemIndex = new Map<string, string>();
+    sections.forEach((section, s) => {
+      sectionIndex.set(section.title, `${s + 1}`);
+      section.items.forEach((item, i) => itemIndex.set(item.id, `${s + 1}.${i + 1}`));
+    });
+    return { sectionIndex, itemIndex };
+  }, [sections]);
+
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => onSearchChange(e.target.value),
     [onSearchChange],
@@ -44,8 +54,8 @@ export const DocsSidebar = memo(({
           <span aria-hidden className="text-primary">/</span>
           <input
             type="text"
-            placeholder="search"
-            aria-label="Search docs"
+            placeholder={t.docs.search}
+            aria-label={t.docs.searchLabel}
             value={searchQuery}
             onChange={handleSearchChange}
             className="w-full bg-transparent text-foreground placeholder:text-dim focus:outline-none"
@@ -53,22 +63,21 @@ export const DocsSidebar = memo(({
         </label>
 
         {filteredSections.length === 0 && (
-          <p className="px-2 text-sm text-dim">no matches.</p>
+          <p className="px-2 text-sm text-dim">{t.docs.noMatches}</p>
         )}
 
         {filteredSections.map((section) => (
-          <div key={section.title} className="mb-6">
+          <nav key={section.title} aria-label={section.title} className="mb-6">
             <p className="mb-2 px-2 text-xs uppercase tracking-widest text-dim">
-              {SECTION_INDEX.get(section.title)}. {section.title}
+              {sectionIndex.get(section.title)}. {section.title}
             </p>
             <ul>
               {section.items.map((item) => {
                 const isActive = activeSection === item.id;
                 return (
                   <li key={item.id}>
-                    <button
-                      type="button"
-                      onClick={() => onNavigate(item.id)}
+                    <Link
+                      to={hrefFor(item.id)}
                       aria-current={isActive ? "page" : undefined}
                       className={`flex w-full items-baseline gap-3 border-l-2 px-2 py-1.5 text-left text-sm transition-colors ${
                         isActive
@@ -77,15 +86,15 @@ export const DocsSidebar = memo(({
                       }`}
                     >
                       <span className={`w-8 shrink-0 text-xs ${isActive ? "text-primary" : "text-dim"}`}>
-                        {ITEM_INDEX.get(item.id)}
+                        {itemIndex.get(item.id)}
                       </span>
                       <span className="lowercase">{item.label}</span>
-                    </button>
+                    </Link>
                   </li>
                 );
               })}
             </ul>
-          </div>
+          </nav>
         ))}
       </div>
     </aside>

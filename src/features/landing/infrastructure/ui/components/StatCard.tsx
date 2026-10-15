@@ -1,12 +1,13 @@
-import { memo } from "react";
-import type { StatI } from "@landing/infrastructure/ui/types/landing.module.types";
+import React, { memo } from "react";
+
+import type { StatI } from "@landing/infrastructure/ui/interfaces/LandingI";
 
 interface StatCardPropsI {
   stat: StatI;
 }
 
-/** One htop-style cell: key, aligned value, note. Stacks as a table row on mobile. */
-export const StatCard = memo(({ stat }: StatCardPropsI) => {
+/** Una celda estilo htop: clave, valor alineado y nota. En móvil se apila como fila de tabla. */
+export const StatCard: React.FC<StatCardPropsI> = memo(({ stat }: StatCardPropsI) => {
   return (
     <div className="border-b border-r border-border px-4 py-4 font-mono sm:py-5">
       <dt className="text-xs uppercase tracking-widest text-dim">{stat.label}</dt>

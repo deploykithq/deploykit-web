@@ -1,15 +1,18 @@
-import { memo } from "react";
+import React, { memo } from "react";
+
+import { useCopyToClipboard } from "@landing/infrastructure/ui/hooks/useCopyToClipboard";
+import { useLandingCopy } from "@landing/infrastructure/ui/hooks/useLandingCopy";
 
 import { INSTALL_CMD } from "@landing/infrastructure/ui/constants/landing.constants";
-import { useCopyToClipboard } from "@landing/infrastructure/ui/hooks/useCopyToClipboard";
 
 interface InstallCommandPropsI {
-  /** "dark" sits on the page background, "ink" sits inside the amber CTA block. */
+  /** "dark" va sobre el fondo de la página, "ink" dentro del bloque CTA ámbar. */
   variant?: "dark" | "ink";
 }
 
-/** The install one-liner as the primary call to action: click anywhere to copy. */
-export const InstallCommand = memo(({ variant = "dark" }: InstallCommandPropsI) => {
+/** El one-liner de instalación como llamada a la acción principal: clic en cualquier parte para copiar. */
+export const InstallCommand: React.FC<InstallCommandPropsI> = memo(({ variant = "dark" }: InstallCommandPropsI) => {
+  const { install } = useLandingCopy();
   const { copied, copy } = useCopyToClipboard(INSTALL_CMD);
   const ink = variant === "ink";
 
@@ -17,7 +20,7 @@ export const InstallCommand = memo(({ variant = "dark" }: InstallCommandPropsI) 
     <button
       type="button"
       onClick={copy}
-      aria-label={`Copy install command: ${INSTALL_CMD}`}
+      aria-label={install.ariaLabel(INSTALL_CMD)}
       className={[
         "group block w-full border text-left font-mono transition-colors",
         ink
@@ -26,12 +29,12 @@ export const InstallCommand = memo(({ variant = "dark" }: InstallCommandPropsI) 
       ].join(" ")}
     >
       <span className="flex items-center justify-between border-b border-border px-4 py-2 text-[11px] uppercase tracking-widest text-dim">
-        <span>install</span>
+        <span>{install.label}</span>
         <span
           aria-live="polite"
           className={copied ? "text-success" : "text-muted-foreground group-hover:text-primary"}
         >
-          {copied ? "✓ copied" : "[ copy ]"}
+          {copied ? install.copied : install.copy}
         </span>
       </span>
       <span className="flex items-start gap-3 px-4 py-4 text-sm sm:text-base">

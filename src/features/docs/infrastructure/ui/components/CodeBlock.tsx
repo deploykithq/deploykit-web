@@ -1,6 +1,8 @@
-import { memo, useState, useCallback, useEffect, useMemo, useRef } from "react";
+import React, { memo, useState, useCallback, useEffect, useMemo, useRef } from "react";
 
-/** Strips blank edge lines and the common indentation template literals carry in. */
+import { useT } from "@lib/i18n/useLocale";
+
+/** Quita las líneas en blanco de los extremos y la indentación común que traen los template literals. */
 const dedent = (code: string) => {
   const lines = code.replace(/^\s*\n|\n\s*$/g, "").split("\n");
   const indent = Math.min(
@@ -14,7 +16,8 @@ interface CodeBlockPropsI {
   language?: string;
 }
 
-export const CodeBlock = memo(({ code: raw, language = "bash" }: CodeBlockPropsI) => {
+export const CodeBlock: React.FC<CodeBlockPropsI> = memo(({ code: raw, language = "bash" }: CodeBlockPropsI) => {
+  const t = useT();
   const code = useMemo(() => dedent(raw), [raw]);
   const [copied, setCopied] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>();
@@ -36,10 +39,10 @@ export const CodeBlock = memo(({ code: raw, language = "bash" }: CodeBlockPropsI
         <button
           type="button"
           onClick={handleCopy}
-          aria-label={`Copy ${language} snippet`}
+          aria-label={t.docs.copySnippet(language)}
           className={copied ? "text-success" : "text-muted-foreground hover:text-primary"}
         >
-          <span aria-live="polite">{copied ? "✓ copied" : "[ copy ]"}</span>
+          <span aria-live="polite">{copied ? t.docs.copied : t.docs.copy}</span>
         </button>
       </div>
       <pre className="overflow-x-auto bg-background p-4">

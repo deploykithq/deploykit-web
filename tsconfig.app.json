@@ -20,6 +20,8 @@
       "@/*": ["./src/*"],
       "@landing/*": ["./src/features/landing/*"],
       "@docs/*": ["./src/features/docs/*"],
+      "@blog/*": ["./src/features/blog/*"],
+      "@shared/*": ["./src/shared/*"],
       "@lib/*": ["./src/lib/*"]
     },
     "skipLibCheck": true,
